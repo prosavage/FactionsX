@@ -4,3 +4,6 @@
 [submodule "FWild-Addon"]
 	path = FWild-Addon
 	url = https://github.com/SavageLabs/FWild-Addon.git
+[submodule "FGrace-Addon"]
+	path = FGrace-Addon
+	url = https://github.com/SavageLabs/FGrace-Addon.git
