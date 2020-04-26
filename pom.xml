@@ -6,7 +6,51 @@
 
     <groupId>net.prosavage.factionsX</groupId>
     <artifactId>FactionsX-Parent</artifactId>
+    <packaging>pom</packaging>
     <version>1.0</version>
+
+
+    <modules>
+        <module>AddonFramework</module>
+        <module>FactionsX</module>
+        <module>FTOP-Addon</module>
+        <module>FWild-Addon</module>
+        <module>FGrace-Addon</module>
+        <module>FTNT-Addon</module>
+    </modules>
+
+    <properties>
+        <factionsx.version>0.2.2-PATREON</factionsx.version>
+        <ftopaddon.version>0.2.2-PATREON</ftopaddon.version>
+        <fwildaddon.version>0.2.2-PATREON</fwildaddon.version>
+        <addonframework.version>1.0</addonframework.version>
+    </properties>
+
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>FactionsX</artifactId>
+                <version>${factionsx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}.ftopx</groupId>
+                <artifactId>FTOP-Addon</artifactId>
+                <version>${ftopaddon.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>AddonFramework</artifactId>
+                <version>${addonframework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>FWild-Addon</artifactId>
+                <version>${factionsx.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 
 </project>
