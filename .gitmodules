@@ -15,4 +15,4 @@
 	url = https://github.com/SavageLabs/AddonFramework.git
 [submodule "FTNT-Addon"]
 	path = FTNT-Addon
-	url = https://github.com/SavageLabs/FTNT-Addon.git
+	url = https://github.com/SavageLabs/FTNT-Addon
