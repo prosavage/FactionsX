@@ -7,3 +7,6 @@
 [submodule "FGrace-Addon"]
 	path = FGrace-Addon
 	url = https://github.com/SavageLabs/FGrace-Addon.git
+[submodule "FTOP-Addon"]
+	path = FTOP-Addon
+	url = https://github.com/SavageLabs/FTOP-Addon.git
