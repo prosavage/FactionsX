@@ -10,3 +10,6 @@
 [submodule "FTOP-Addon"]
 	path = FTOP-Addon
 	url = https://github.com/SavageLabs/FTOP-Addon.git
+[submodule "AddonFramework"]
+	path = AddonFramework
+	url = https://github.com/SavageLabs/AddonFramework.git
