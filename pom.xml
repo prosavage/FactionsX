@@ -16,7 +16,7 @@
         <module>FTOP-Addon</module>
         <module>FWild-Addon</module>
         <module>FGrace-Addon</module>
-        <module>FTNT-Addon</module>
+
     </modules>
 
     <properties>
