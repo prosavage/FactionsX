@@ -20,7 +20,7 @@
     </modules>
 
     <properties>
-        <factionsx.version>0.2.2-PATREON</factionsx.version>
+        <factionsx.version>0.3-PATREON</factionsx.version>
         <ftopaddon.version>0.2.2-PATREON</ftopaddon.version>
         <fwildaddon.version>0.2.2-PATREON</fwildaddon.version>
         <addonframework.version>1.0</addonframework.version>
