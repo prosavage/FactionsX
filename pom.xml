@@ -18,6 +18,7 @@
         <module>FGrace-Addon</module>
         <module>FTNT-Addon</module>
         <module>FPrinter-Addon</module>
+        <module>FMobTweaks-Addon</module>
     </modules>
 
     <properties>
