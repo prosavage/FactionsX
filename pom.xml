@@ -17,6 +17,7 @@
         <module>FWild-Addon</module>
         <module>FGrace-Addon</module>
         <module>FTNT-Addon</module>
+        <module>FPrinter-Addon</module>
     </modules>
 
     <properties>
