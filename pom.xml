@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>net.prosavage.factionsX</groupId>
+    <groupId>net.prosavage.factionsx</groupId>
     <artifactId>FactionsX-Parent</artifactId>
     <packaging>pom</packaging>
     <version>1.0</version>
@@ -22,9 +22,9 @@
     </modules>
 
     <properties>
-        <factionsx.version>0.4.1-PATREON</factionsx.version>
-        <ftopaddon.version>0.4.1-PATREON</ftopaddon.version>
-        <fwildaddon.version>0.4.1-PATREON</fwildaddon.version>
+        <factionsx.version>0.4.2-PATREON</factionsx.version>
+        <ftopaddon.version>0.4.2-PATREON</ftopaddon.version>
+        <fwildaddon.version>0.4.2-PATREON</fwildaddon.version>
         <addonframework.version>1.1</addonframework.version>
     </properties>
 
