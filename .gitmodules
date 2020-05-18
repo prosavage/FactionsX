@@ -21,4 +21,4 @@
 	url = https://github.com/SavageLabs/FPrinter-Addon.git
 [submodule "FMobTweaks-Addon"]
 	path = FMobTweaks-Addon
-	url = https://github.com/SavageLabs/FMobTweaks-Addon
+	url = https://github.com/SavageLabs/FMobTweaks-Addon.git
