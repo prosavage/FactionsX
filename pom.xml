@@ -22,9 +22,9 @@
     </modules>
 
     <properties>
-        <factionsx.version>0.4.2-PATREON</factionsx.version>
-        <ftopaddon.version>0.4.2-PATREON</ftopaddon.version>
-        <fwildaddon.version>0.4.2-PATREON</fwildaddon.version>
+        <factionsx.version>0.5-PATREON</factionsx.version>
+        <ftopaddon.version>0.5-PATREON</ftopaddon.version>
+        <fwildaddon.version>0.5-PATREON</fwildaddon.version>
         <addonframework.version>1.1</addonframework.version>
     </properties>
 
