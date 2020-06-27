@@ -1,0 +1,14 @@
+<!-- Ask ProSavage for repository User -->
+<!-- Next, make a new file called settings.xml with this content -->
+<!-- Put in username and password -->
+<!-- Go to IntelliJ settings, Build, Execution, and Deployment > Build Tools > Maven -->
+<!-- Put in the file path for the settings.xml file and check the override box. -->
+<settings>
+    <servers>
+        <server>
+            <id>SavageLabs-Private-Repo</id>
+            <username>${username}</username>
+            <password>${password}</password>
+        </server>
+    </servers>
+</settings>

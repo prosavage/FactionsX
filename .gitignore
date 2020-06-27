@@ -4,3 +4,4 @@ copy-to-server.sh
 .DS_Store
 debug/
 copy.sh
+.mvn/settings.xml
