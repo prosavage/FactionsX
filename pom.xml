@@ -19,12 +19,11 @@
         <module>FTNT-Addon</module>
         <module>FPrinter-Addon</module>
         <module>FMobTweaks-Addon</module>
+        <module>FRoam-Addon</module>
     </modules>
 
     <properties>
         <factionsx.version>1.0.1-RC</factionsx.version>
-        <ftopaddon.version>1.0.1-RC</ftopaddon.version>
-        <fwildaddon.version>1.0.1-RC</fwildaddon.version>
         <addonframework.version>1.1.1</addonframework.version>
     </properties>
 
