@@ -22,3 +22,6 @@
 [submodule "FMobTweaks-Addon"]
 	path = FMobTweaks-Addon
 	url = https://github.com/SavageLabs/FMobTweaks-Addon.git
+[submodule "FRoam-Addon"]
+	path = FRoam-Addon
+	url = https://github.com/SavageLabs/FRoam-Addon.git
