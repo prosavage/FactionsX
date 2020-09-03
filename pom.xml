@@ -22,9 +22,9 @@
     </modules>
 
     <properties>
-        <factionsx.version>1.0-RC</factionsx.version>
-        <ftopaddon.version>1.0-RC</ftopaddon.version>
-        <fwildaddon.version>1.0-RC</fwildaddon.version>
+        <factionsx.version>1.0.1-RC</factionsx.version>
+        <ftopaddon.version>1.0.1-RC</ftopaddon.version>
+        <fwildaddon.version>1.0.1-RC</fwildaddon.version>
         <addonframework.version>1.1.1</addonframework.version>
     </properties>
 
