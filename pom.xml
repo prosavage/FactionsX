@@ -20,10 +20,11 @@
         <module>FPrinter-Addon</module>
         <module>FMobTweaks-Addon</module>
         <module>FRoam-Addon</module>
+        <module>FChest-Addon</module>
     </modules>
 
     <properties>
-        <factionsx.version>1.0.1-RC</factionsx.version>
+        <factionsx.version>1.0.2-RC</factionsx.version>
         <addonframework.version>1.1.1</addonframework.version>
     </properties>
 
@@ -38,17 +39,6 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>FactionsX</artifactId>
-                <version>${factionsx.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}.ftopx</groupId>
-                <artifactId>FTOP-Addon</artifactId>
-                <version>${ftopaddon.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>FWild-Addon</artifactId>
                 <version>${factionsx.version}</version>
             </dependency>
         </dependencies>

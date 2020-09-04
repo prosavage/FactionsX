@@ -25,3 +25,6 @@
 [submodule "FRoam-Addon"]
 	path = FRoam-Addon
 	url = https://github.com/SavageLabs/FRoam-Addon.git
+[submodule "FChest-Addon"]
+	path = FChest-Addon
+	url = https://github.com/SavageLabs/FChest-Addon.git
