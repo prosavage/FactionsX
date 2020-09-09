@@ -11,6 +11,7 @@ dependencies {
     compileOnly(project(":AddonFramework"))
     compileOnly("net.prosavage:BasePlugin:1.7.6")
     compileOnly(kotlin("stdlib-jdk8"))
+    compileOnly("com.github.cryptomorin:XSeries:7.2.1")
     compileOnly ("org.spigotmc:spigot-api:1.16.1-R0.1-SNAPSHOT")
 }
 
