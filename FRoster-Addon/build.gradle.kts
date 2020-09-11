@@ -29,7 +29,7 @@ tasks {
         relocate("kotlin", "$shadePath.kotlin")
         relocate("com.cryptomorin.xseries", "$shadePath.xseries")
         relocate("net.prosavage.factionsx.addonframework", "$shadePath.addonframework")
-        archiveFileName.set("FRoster-Addon.jar")
+        archiveFileName.set("FRoster-Addon-${project.version}.jar")
         println("Compiled FRoster-Addon")
     }
 }
