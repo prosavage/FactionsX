@@ -1,0 +1,2 @@
+ARGS = "$@"
+echo ARGS
