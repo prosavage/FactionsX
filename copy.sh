@@ -6,3 +6,4 @@ cp ~/IdeaProjects/FactionsX-Parent/FTNT-Addon/build/libs/FTNT-Addon-1.0.5-RC.jar
 cp ~/IdeaProjects/FactionsX-Parent/FWild-Addon/build/libs/FWild-Addon-1.0.5-RC.jar ~/Servers/serverfast/plugins/FactionsX/addons/FWild.jar
 cp ~/IdeaProjects/FactionsX-Parent/FChest-Addon/build/libs/FChest-Addon-1.0.5-RC.jar ~/Servers/serverfast/plugins/FactionsX/addons/FChest.jar
 cp ~/IdeaProjects/FactionsX-Parent/FRoster-Addon/build/libs/FRoster-Addon-1.0.5-RC.jar ~/Servers/serverfast/plugins/FactionsX/addons/FRoster.jar
+cp ~/IdeaProjects/FactionsX-Parent/FDynmap-Addon/build/libs/FDynmap-Addon-1.0.5-RC.jar ~/Servers/serverfast/plugins/FactionsX/addons/FDynmap.jar

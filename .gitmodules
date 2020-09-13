@@ -31,3 +31,6 @@
 [submodule "FRoster-Addon"]
 	path = FRoster-Addon
 	url = https://github.com/SavageLabs/FRoster-Addon.git
+[submodule "FDynmap-Addon"]
+	path = FDynmap-Addon
+	url = https://github.com/SavageLabs/FDynmap-Addon.git
