@@ -5,3 +5,5 @@ copy-to-server.sh
 debug/
 copy.sh
 .mvn/settings.xml
+build
+.gradle/
