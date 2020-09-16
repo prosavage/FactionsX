@@ -1,6 +1,6 @@
 allprojects {
     group = "net.prosavage.factionsx"
-    version = "1.0.5-RC"
+    version = "1.0.5-RC-PATREON"
 }
 
 plugins {
@@ -39,7 +39,7 @@ subprojects {
         maven("https://maven.enginehub.org/repo/")
 
         maven("https://jcenter.bintray.com/")
-//
+
 //        maven("https://nexus.savagelabs.net/repository/maven-public/")
 
         maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
@@ -52,7 +52,6 @@ subprojects {
         maven("https://minevolt.net/repo/")
 
         maven("https://jitpack.io")
-
     }
 }
 
