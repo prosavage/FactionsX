@@ -1,6 +1,6 @@
 allprojects {
     group = "net.prosavage.factionsx"
-    version = "1.0.5-RC-PATREON"
+    version = "1.0.5-RC"
 }
 
 plugins {
