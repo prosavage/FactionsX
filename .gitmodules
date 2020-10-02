@@ -34,3 +34,6 @@
 [submodule "FRoster-Addon"]
 	path = FRoster-Addon
 	url = https://github.com/SavageLabs/FRoster-Addon.git
+[submodule "FCropUpgrades-Addon"]
+	path = FCropUpgrades-Addon
+	url = https://github.com/SavageLabs/FCropUpgrades-Addon.git
