@@ -46,7 +46,6 @@ subprojects {
 
         maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
         maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
-        maven("http://repo.mvdw-software.be/content/groups/public/")
         maven("https://papermc.io/repo/repository/maven-releases/")
         maven("https://ci.ender.zone/plugin/repository/everything/")
         maven("https://minevolt.net/repo/")

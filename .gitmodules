@@ -37,3 +37,6 @@
 [submodule "FCropUpgrades-Addon"]
 	path = FCropUpgrades-Addon
 	url = https://github.com/SavageLabs/FCropUpgrades-Addon.git
+[submodule "FShop-Addon"]
+	path = FShop-Addon
+	url = https://github.com/SavageLabs/FShop-Addon.git

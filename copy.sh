@@ -7,4 +7,5 @@ cp ~/IdeaProjects/FactionsX-Parent/FWild-Addon/build/libs/FWild-Addon-1.0.6-RC.j
 cp ~/IdeaProjects/FactionsX-Parent/FChest-Addon/build/libs/FChest-Addon-1.0.6-RC.jar ~/Servers/serverfast/plugins/FactionsX/addons/FChest.jar
 cp ~/IdeaProjects/FactionsX-Parent/FRoster-Addon/build/libs/FRoster-Addon-1.0.6-RC.jar ~/Servers/serverfast/plugins/FactionsX/addons/FRoster.jar
 cp ~/IdeaProjects/FactionsX-Parent/FDynmap-Addon/build/libs/FDynmap-Addon-1.0.6-RC.jar ~/Servers/serverfast/plugins/FactionsX/addons/FDynmap.jar
-cp ~/IdeaProjects/FactionsX-Parent/FCropUpgrades-Addonv3n0m0/build/libs/FCropUpgrades-Addon-1.0.6-RC.jar ~/Servers/serverfast/plugins/FactionsX/addons/FCropUpgrades.jar
+cp ~/IdeaProjects/FactionsX-Parent/FCropUpgrades-Addon/build/libs/FCropUpgrades-Addon-1.0.6-RC.jar ~/Servers/serverfast/plugins/FactionsX/addons/FCropUpgrades.jar
+cp ~/IdeaProjects/FactionsX-Parent/FMaxTileEntities-Addon/build/libs/FMaxTileEntities-Addon-1.0.6-RC.jar ~/Servers/serverfast/plugins/FactionsX/addons/FMaxTileEntities.jar
