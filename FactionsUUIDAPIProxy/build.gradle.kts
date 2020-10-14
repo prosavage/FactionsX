@@ -18,7 +18,13 @@ dependencies {
 }
 
 
+
 tasks {
+
+    compileKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+
     val shadowJar = named<ShadowJar>("shadowJar") {
         mergeServiceFiles()
         minimize()
@@ -28,7 +34,7 @@ tasks {
         relocate("io.papermc.lib", "$shadePath.paperlib")
         relocate("com.cryptomorin.xseries", "$shadePath.xseries")
         relocate("net.prosavage.factionsx.addonframework", "$shadePath.addonframework")
-        archiveFileName.set("FCompatibilityAPI-Addon-${project.version}.jar")
-        println("Compiled FCompatibilityAPI-Addon")
+        archiveFileName.set("FactionsUUIDAPIInjector-${project.version}.jar")
+        println("Compiled FactionsUUIDAPIInjector")
     }
 }

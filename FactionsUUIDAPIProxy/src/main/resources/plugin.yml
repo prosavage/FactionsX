@@ -1,0 +1,7 @@
+main: net.prosavage.factionsx.FactionsUUIDAPIProxy
+version: 1.0
+description: This plugin proxies API calls to FactionsX API, the classes present inside essentially micmic the JVM signatures for FactionsUUID classes.
+name: Factions
+depend: [FactionsX]
+authors: [drtshock]
+prefix: FactionsUUID-API-Proxy

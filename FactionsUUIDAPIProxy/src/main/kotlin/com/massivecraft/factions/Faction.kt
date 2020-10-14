@@ -1,11 +1,9 @@
 package com.massivecraft.factions
 
-import net.prosavage.factionsx.core.FPlayer
-import net.prosavage.factionsx.persist.data.FLocation
+import com.massivecraft.factions.proxy.ProxyFPlayer
 import net.prosavage.factionsx.persist.data.wrappers.DataLocation
 import org.bukkit.Location
-import javax.management.relation.Role
-import kotlin.math.acos
+import java.util.*
 import kotlin.math.roundToInt
 
 
@@ -16,20 +14,19 @@ class Faction(val faction: net.prosavage.factionsx.core.Faction) {
     }
 
 
-
     fun getId(): String? {
         return faction.id.toString()
     }
 
-    fun invite(fplayer: com.massivecraft.factions.FPlayer?) {
+    fun invite(fplayer: FPlayer?) {
         fplayer?.fplayer?.let { faction.inviteMember(it) }
     }
 
-    fun deinvite(fplayer: com.massivecraft.factions.FPlayer?) {
+    fun deinvite(fplayer: FPlayer?) {
         fplayer?.fplayer?.deInviteFromFaction(faction)
     }
 
-    fun isInvited(fplayer: com.massivecraft.factions.FPlayer?): Boolean {
+    fun isInvited(fplayer: FPlayer?): Boolean {
         return fplayer?.fplayer?.factionsInvitedTo?.contains(faction.id) ?: false
     }
 
@@ -48,11 +45,12 @@ class Faction(val faction: net.prosavage.factionsx.core.Faction) {
     fun getTag(prefix: String?): String? {
         return "$prefix ${faction.tag}"
     }
+
     fun getTag(otherFaction: Faction?): String? {
         return otherFaction?.getTag()
     }
 
-    fun getTag(otherFplayer: com.massivecraft.factions.FPlayer?): String? {
+    fun getTag(otherFplayer: FPlayer?): String? {
         return otherFplayer?.getTag()
     }
 
@@ -114,43 +112,55 @@ class Faction(val faction: net.prosavage.factionsx.core.Faction) {
         return faction.getMaxPower().roundToInt()
     }
 
-    fun addFPlayer(fplayer: com.massivecraft.factions.FPlayer?): Boolean {
-        faction.addMember(fplayer?.fplayer)
+    fun addFPlayer(fplayer: FPlayer?): Boolean {
+        fplayer?.fplayer?.let {
+            faction.addMember(it, faction.factionRoles.getMinimumRole())
+            return true
+        }
+        return false
     }
 
-    fun removeFPlayer(fplayer: FPlayer?): Boolean
+    fun removeFPlayer(fplayer: FPlayer?): Boolean {
+        fplayer?.fplayer?.let {
+            faction.removeMember(it)
+            return true
+        }
+        return false
+    }
 
-    fun getSize(): Int
+    fun getSize(): Int {
+        return faction.getMaxMembers()
+    }
 
-    fun getFPlayers(): Set<FPlayer?>?
+    fun getFPlayers(): Set<FPlayer?>? {
+        return faction.getMembers().map { member -> ProxyFPlayer(member) }.toSet()
+    }
 
-    fun getFPlayersWhereOnline(online: Boolean): Set<FPlayer?>?
+    fun getFPlayersWhereOnline(online: Boolean): Set<FPlayer?>? {
+        return faction.getOnlineMembers().map { ProxyFPlayer(it) }.toSet()
+    }
 
-    fun getFPlayersWhereOnline(online: Boolean, viewer: FPlayer?): Set<FPlayer?>?
+    fun getFPlayersWhereOnline(online: Boolean, viewer: FPlayer?): Set<FPlayer?>? {
+        return getFPlayersWhereOnline(online)
+    }
 
-    fun getFPlayerAdmin(): FPlayer?
+    fun getFPlayerAdmin(): FPlayer? {
+        return faction.getLeader()?.let { ProxyFPlayer(it) }
+    }
 
-    fun getFPlayersWhereRole(role: Role?): List<FPlayer?>?
+    fun sendMessage(message: String?) {
+        if (message != null) {
+            faction.message(message)
+        }
+    }
 
-    fun getOnlinePlayers(): List<Player?>?
-
-    // slightly faster check than getOnlinePlayers() if you just want to see if
-    // there are any players online
-    fun hasPlayersOnline(): Boolean
-
-    fun memberLoggedOff()
-
-    // used when current leader is about to be removed from the faction;
-    // promotes new leader, or disbands faction if no other members left
-    fun promoteNewLeader()
-
-    fun getDefaultRole(): Role?
-
-    fun setDefaultRole(role: Role?)
-
-    fun sendMessage(message: String?)
-
-    fun sendMessage(messages: List<String?>?)
+    fun sendMessage(messages: List<String?>?) {
+        messages?.forEach {
+            if (it != null) {
+                faction.message(it)
+            }
+        }
+    }
 
     // ----------------------------------------------//
     // Ownership of specific claims
@@ -159,39 +169,10 @@ class Faction(val faction: net.prosavage.factionsx.core.Faction) {
     // ----------------------------------------------//
     // Ownership of specific claims
     // ----------------------------------------------//
-    fun getClaimOwnership(): Map<FLocation?, Set<String?>?>?
 
-    fun clearAllClaimOwnership()
+    fun setId(id: String?) {
+        faction.ownerId = UUID.fromString(id)
+    }
 
-    fun clearClaimOwnership(loc: FLocation?)
-
-    fun clearClaimOwnership(player: FPlayer?)
-
-    fun getCountOfClaimsWithOwners(): Int
-
-    fun doesLocationHaveOwnersSet(loc: FLocation?): Boolean
-
-    fun isPlayerInOwnerList(player: FPlayer?, loc: FLocation?): Boolean
-
-    fun setPlayerAsOwner(player: FPlayer?, loc: FLocation?)
-
-    fun removePlayerAsOwner(player: FPlayer?, loc: FLocation?)
-
-    fun getOwnerList(loc: FLocation?): Set<String?>?
-
-    fun getOwnerListString(loc: FLocation?): String?
-
-    fun playerHasOwnershipRights(fplayer: FPlayer?, loc: FLocation?): Boolean
-
-    // ----------------------------------------------//
-    // Persistance and entity management
-    // ----------------------------------------------//
-    fun remove()
-
-    fun getAllClaims(): Set<FLocation?>?
-
-    fun setId(id: String?)
-
-    fun getOfflinePlayer(): OfflinePlayer?
 
 }
