@@ -9,6 +9,40 @@ plugins {
     id("com.github.johnrengelman.shadow") version "5.1.0"
 }
 
+val serverPluginDirectory: String by project
+
+tasks {
+    register("copyToServer") {
+        // Copy all our stuff to root project libs.
+        for (subproject in subprojects.filter { project -> project.name != "AddonFramework" }) {
+            println("Copying ${subproject.name}")
+            copy {
+                from("${subproject.buildDir}/libs/")
+                into("${buildDir}/libs/")
+                include("${subproject.name}*.jar")
+            }
+        }
+
+        if (project.hasProperty("serverPluginDirectory").not()) {
+            println("No serverPluginDirectory argument found, ex: \n" +
+                    "gradle shadowJar copyToServer -PserverPluginDirectory=~/Documents/mc-server/plugins/")
+            return@register
+        }
+
+        // Copy the plugins.
+        copy {
+            from("$buildDir/libs/")
+            into(serverPluginDirectory)
+            include("*.jar")
+            exclude("${project.name}-$version-all.jar", "*-Addon-$version.jar")
+        }
+
+
+
+
+    }
+}
+
 subprojects {
     repositories {
         mavenLocal()
