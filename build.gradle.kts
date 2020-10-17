@@ -13,33 +13,39 @@ val serverPluginDirectory: String by project
 
 tasks {
     register("copyToServer") {
-        // Copy all our stuff to root project libs.
-        for (subproject in subprojects.filter { project -> project.name != "AddonFramework" }) {
-            println("Copying ${subproject.name}")
+        doLast {
+            // Copy all our stuff to root project libs.
+            for (subproject in subprojects.filter { project -> project.name != "AddonFramework" }) {
+                println("Copying ${subproject.name}")
+                copy {
+                    from("${subproject.buildDir}/libs/")
+                    into("${buildDir}/libs/")
+                    include("${subproject.name}-${version}.jar")
+                }
+            }
+
+            if (project.hasProperty("serverPluginDirectory").not()) {
+                println("No serverPluginDirectory argument found, ex: \n" +
+                        "gradle shadowJar copyToServer -PserverPluginDirectory=~/Documents/mc-server/plugins/")
+                return@register
+            }
+            println("copying $serverPluginDirectory")
+            // Copy the plugins.
             copy {
-                from("${subproject.buildDir}/libs/")
-                into("${buildDir}/libs/")
-                include("${subproject.name}*.jar")
+                from("$buildDir/libs/")
+                into(serverPluginDirectory)
+                include("*.jar")
+                exclude("${project.name}-$version-all.jar", "*-Addon-$version.jar")
+            }
+
+            // Copy the addons.
+            copy {
+                from("$buildDir/libs/")
+                into("$serverPluginDirectory/FactionsX/addons")
+                include("*-Addon-$version.jar")
+                exclude("${project.name}-$version-all.jar")
             }
         }
-
-        if (project.hasProperty("serverPluginDirectory").not()) {
-            println("No serverPluginDirectory argument found, ex: \n" +
-                    "gradle shadowJar copyToServer -PserverPluginDirectory=~/Documents/mc-server/plugins/")
-            return@register
-        }
-
-        // Copy the plugins.
-        copy {
-            from("$buildDir/libs/")
-            into(serverPluginDirectory)
-            include("*.jar")
-            exclude("${project.name}-$version-all.jar", "*-Addon-$version.jar")
-        }
-
-
-
-
     }
 }
 
