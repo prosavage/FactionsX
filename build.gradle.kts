@@ -27,7 +27,7 @@ tasks {
             if (project.hasProperty("serverPluginDirectory").not()) {
                 println("No serverPluginDirectory argument found, ex: \n" +
                         "gradle shadowJar copyToServer -PserverPluginDirectory=~/Documents/mc-server/plugins/")
-                return@register
+                return@doLast
             }
             println("copying $serverPluginDirectory")
             // Copy the plugins.
