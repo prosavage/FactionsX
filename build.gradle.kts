@@ -13,16 +13,13 @@ val serverPluginDirectory: String by project
 
 tasks {
 
+    // This is for the CI
     register("setCIVersion") {
-
-
-            val teamcity: Map<*,*> by project
-            if (teamcity == null) {
-                println("Not running in teamcity env, version will not be changed.")
-                return@register
-            }
-            version = "dev-#${teamcity["teamcity.build.id"]}"
-            println("Set version to $version")
+           doFirst {
+               val teamcity: Map<*,*> by project
+               version = "dev-#${teamcity["teamcity.build.id"]}"
+               println("Set version to $version")
+           }
     }
 
 
