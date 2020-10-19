@@ -15,11 +15,14 @@ tasks {
 
     register("setCIVersion") {
 
-        if (hasProperty("teamcity")) {
-            version = "dev-#%build.counter%}"
-        } else {
-            println("Not running in teamcity env, version will not be changed.")
-        }
+
+            val teamcity: Map<*,*> by project
+            if (teamcity == null) {
+                println("Not running in teamcity env, version will not be changed.")
+                return@register
+            }
+            version = "dev-#${teamcity["teamcity.build.id"]}"
+            println("Set version to $version")
     }
 
 
