@@ -1,6 +1,6 @@
 allprojects {
     group = "net.prosavage.factionsx"
-    version = "1.0.6-RC"
+    version = "1.0.7-RC"
 }
 
 plugins {
@@ -12,6 +12,17 @@ plugins {
 val serverPluginDirectory: String by project
 
 tasks {
+
+    register("setCIVersion") {
+
+        if (hasProperty("teamcity")) {
+            version = "dev-#%build.counter%}"
+        } else {
+            println("Not running in teamcity env, version will not be changed.")
+        }
+    }
+
+
     register("copyToServer") {
         doLast {
             // Copy all our stuff to root project libs.
