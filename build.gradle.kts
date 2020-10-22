@@ -1,6 +1,6 @@
 allprojects {
     group = "net.prosavage.factionsx"
-    version = "1.0.7-RC"
+    version = "1.0.8-RC"
 }
 
 plugins {
@@ -10,6 +10,7 @@ plugins {
 }
 
 val serverPluginDirectory: String by project
+
 
 tasks {
 
