@@ -1,6 +1,6 @@
 allprojects {
     group = "net.prosavage.factionsx"
-    version = "1.0.6-RC"
+    version = "1.0.8-RC-PATREON"
 }
 
 plugins {
@@ -11,7 +11,19 @@ plugins {
 
 val serverPluginDirectory: String by project
 
+
 tasks {
+
+    // This is for the CI
+    register("setCIVersion") {
+           doFirst {
+               val teamcity: Map<*,*> by project
+               version = "dev-#${teamcity["teamcity.build.id"]}"
+               println("Set version to $version")
+           }
+    }
+
+
     register("copyToServer") {
         doLast {
             // Copy all our stuff to root project libs.

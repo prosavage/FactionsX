@@ -33,7 +33,6 @@ tasks {
         relocate("kotlin", "$shadePath.kotlin")
         relocate("io.papermc.lib", "$shadePath.paperlib")
         relocate("com.cryptomorin.xseries", "$shadePath.xseries")
-        relocate("net.prosavage.factionsx.addonframework", "$shadePath.addonframework")
         archiveFileName.set("FactionsUUIDAPIInjector-${project.version}.jar")
         println("Compiled FactionsUUIDAPIInjector")
     }
