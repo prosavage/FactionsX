@@ -1,12 +1,114 @@
+import org.gradle.kotlin.dsl.support.zipTo
+
 allprojects {
     group = "net.prosavage.factionsx"
-    version = "1.0.6-RC"
+    version = "1.0.8-RC"
 }
 
 plugins {
     java
     kotlin("jvm") version "1.3.72"
-    id("com.github.johnrengelman.shadow") version "5.1.0"
+    id("com.github.johnrengelman.shadow") version "5.2.0"
+}
+
+val serverPluginDirectory: String by project
+
+
+tasks {
+
+    // This is for the CI
+    register("setCIVersion") {
+        doFirst {
+            val teamcity: Map<*,*> by project
+            version = "dev-#${teamcity["teamcity.build.id"]}"
+            println("Set version to $version")
+        }
+    }
+
+
+    val copyToRoot = register("copyToRoot") {
+        doLast {
+            // Copy all our stuff to root project libs.
+            for (subproject in subprojects.filter { project -> project.name != "AddonFramework" }) {
+                copy {
+                    from("${subproject.buildDir}/libs/")
+                    into("${buildDir}/libs/")
+                    include("${subproject.name}-${version}.jar")
+                }
+            }
+        }
+    }
+
+    register("packageRelease") {
+        dependsOn(copyToRoot)
+        doLast {
+            val releasePath = "${buildDir}/release/FactionsX+Addons"
+            mkdir(releasePath)
+            // Copy the plugins.
+            copy {
+                from("$buildDir/libs/")
+                into(releasePath)
+                include("*.jar")
+                exclude("${project.name}-$version-all.jar", "*-Addon-$version.jar")
+            }
+
+            // Copy the addons.
+            copy {
+                from("$buildDir/libs/")
+                into("$releasePath/addons")
+                include("*-Addon-$version.jar")
+                exclude("${project.name}-$version-all.jar")
+            }
+
+
+            val readme = file("$releasePath/README.txt")
+            readme.writeText("Hi, thanks for reading!\n" +
+                    "\n" +
+                    "The FactionsX-${project.version} is a normal minecraft plugin, can goes in the \"/plugins/\" folder.\n" +
+                    "All jar files in the \"Addons\" folder, go in the \"/plugins/FactionsX/addons/\" folder.\n" +
+                    "* F CropUpgrades Addon is 1.13+.\n" +
+                    "\n" +
+                    "The FactionsUUIDAPIProxy attempts to imitate FactionsUUID being present on your server, and proxies the API calls to FactionsX,\n" +
+                    "this allows plugins using FactionsUUID's API to work with FactionsX. This is a very new addition and I dont expect it to work perfectly\n" +
+                    "as it IS a hack. If you have issues with a plugin feel free to come to our discord for support.\n" +
+                    "* FactionsUUIDAPIProxy is a minecraft plugin and goes in \"/plugins/\".\n" +
+                    "\n" +
+                    "\n" +
+                    "Discord: https://discord.gg/savagelabs\n" +
+                    "Wiki: https://wiki.savagelabs.net")
+            zipTo(File("${buildDir}/release/FactionsX-Release-${project.version}.zip"), File(releasePath))
+        }
+    }
+
+
+
+    register("copyToServer") {
+        dependsOn(copyToRoot)
+        doLast {
+            if (project.hasProperty("serverPluginDirectory").not()) {
+                println("No serverPluginDirectory argument found, ex: \n" +
+                        "gradle shadowJar copyToServer -PserverPluginDirectory=~/Documents/mc-server/plugins/")
+                return@doLast
+            }
+            println("copying $serverPluginDirectory")
+            // Copy the plugins.
+            copy {
+                from("$buildDir/libs/")
+                into(serverPluginDirectory)
+                include("*.jar")
+                exclude("${project.name}-$version-all.jar", "*-Addon-$version.jar")
+            }
+
+            // Copy the addons.
+            copy {
+                from("$buildDir/libs/")
+                into("$serverPluginDirectory/FactionsX/addons")
+                include("*-Addon-$version.jar")
+                exclude("${project.name}-$version-all.jar")
+            }
+
+        }
+    }
 }
 
 subprojects {
