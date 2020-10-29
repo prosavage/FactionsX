@@ -5,6 +5,7 @@
 rootProject.name = "FactionsX-Parent"
 include(":AddonFramework")
 include(":FactionsX")
+include("FactionsUUIDAPIProxy")
 include(":FTOP-Addon")
 include(":FWild-Addon")
 include(":FGrace-Addon")

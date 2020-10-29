@@ -112,6 +112,58 @@ tasks {
     }
 }
 
+val serverPluginDirectory: String by project
+
+
+tasks {
+
+    // This is for the CI
+    register("setCIVersion") {
+           doFirst {
+               val teamcity: Map<*,*> by project
+               version = "dev-#${teamcity["teamcity.build.id"]}"
+               println("Set version to $version")
+           }
+    }
+
+
+    register("copyToServer") {
+        doLast {
+            // Copy all our stuff to root project libs.
+            for (subproject in subprojects.filter { project -> project.name != "AddonFramework" }) {
+                println("Copying ${subproject.name}")
+                copy {
+                    from("${subproject.buildDir}/libs/")
+                    into("${buildDir}/libs/")
+                    include("${subproject.name}-${version}.jar")
+                }
+            }
+
+            if (project.hasProperty("serverPluginDirectory").not()) {
+                println("No serverPluginDirectory argument found, ex: \n" +
+                        "gradle shadowJar copyToServer -PserverPluginDirectory=~/Documents/mc-server/plugins/")
+                return@doLast
+            }
+            println("copying $serverPluginDirectory")
+            // Copy the plugins.
+            copy {
+                from("$buildDir/libs/")
+                into(serverPluginDirectory)
+                include("*.jar")
+                exclude("${project.name}-$version-all.jar", "*-Addon-$version.jar")
+            }
+
+            // Copy the addons.
+            copy {
+                from("$buildDir/libs/")
+                into("$serverPluginDirectory/FactionsX/addons")
+                include("*-Addon-$version.jar")
+                exclude("${project.name}-$version-all.jar")
+            }
+        }
+    }
+}
+
 subprojects {
     repositories {
         mavenLocal()
