@@ -152,6 +152,7 @@ subprojects {
         maven("https://papermc.io/repo/repository/maven-releases/")
         maven("https://ci.ender.zone/plugin/repository/everything/")
         maven("https://minevolt.net/repo/")
+        maven("http://repo.citizensnpcs.co/")
 
         maven("https://jitpack.io")
     }
