@@ -25,7 +25,7 @@ class ProxyFactions : Factions {
     }
 
 
-    override  fun removeFaction(id: String?) {
+    override fun removeFaction(id: String?) {
         if (id == null) return
         FactionManager.deleteFaction(FactionManager.getFaction(id.toLong()))
     }

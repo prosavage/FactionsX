@@ -8,7 +8,7 @@ enum class Relation {
     NEUTRAL,
     ENEMY;
 
-     fun isMember(): Boolean {
+    fun isMember(): Boolean {
         return this == MEMBER
     }
 

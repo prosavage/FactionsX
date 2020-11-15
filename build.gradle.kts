@@ -19,7 +19,7 @@ tasks {
     // This is for the CI
     register("setCIVersion") {
         doFirst {
-            val teamcity: Map<*,*> by project
+            val teamcity: Map<*, *> by project
             version = "dev-#${teamcity["teamcity.build.id"]}"
             println("Set version to $version")
         }

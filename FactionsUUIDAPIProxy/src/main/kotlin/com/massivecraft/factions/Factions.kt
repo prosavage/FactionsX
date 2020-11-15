@@ -1,7 +1,5 @@
 package com.massivecraft.factions
 
-import net.prosavage.factionsx.manager.FactionManager
-
 
 interface Factions {
 

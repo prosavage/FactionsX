@@ -1,8 +1,8 @@
 package net.prosavage.factionsx
 
+import com.massivecraft.factions.Board
 import com.massivecraft.factions.FPlayers
 import com.massivecraft.factions.Factions
-import com.massivecraft.factions.Board
 import com.massivecraft.factions.proxy.ProxyBoard
 import com.massivecraft.factions.proxy.ProxyFactions
 import org.bukkit.Bukkit

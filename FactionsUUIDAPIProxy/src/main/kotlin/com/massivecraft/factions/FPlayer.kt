@@ -1,15 +1,8 @@
 package com.massivecraft.factions
 
 import net.prosavage.factionsx.core.FPlayer
-import net.prosavage.factionsx.manager.GridManager
-import net.prosavage.factionsx.persist.data.FLocation
-import net.prosavage.factionsx.util.Relation
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import java.util.*
-
-import javax.management.relation.Role
-import kotlin.math.roundToInt
 
 interface FPlayer {
     abstract val fplayer: FPlayer
