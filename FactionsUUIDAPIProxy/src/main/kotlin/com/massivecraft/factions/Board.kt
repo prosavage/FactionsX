@@ -1,6 +1,6 @@
 package com.massivecraft.factions
 
-interface Board {
+abstract class Board {
     companion object {
         private lateinit var instance: Board
 
@@ -14,11 +14,11 @@ interface Board {
         }
     }
 
-    fun getFactionAt(fLocation: FLocation): Faction
+    abstract fun getFactionAt(fLocation: FLocation): Faction
 
-    fun setFactionAt(faction: Faction, fLocation: FLocation)
+    abstract fun setFactionAt(faction: Faction, fLocation: FLocation)
 
-    fun getAllClaims(factionId: String): Set<FLocation>
+    abstract fun getAllClaims(factionId: String): Set<FLocation>
 
-    fun getAllClaims(faction: Faction): Set<FLocation>
+    abstract fun getAllClaims(faction: Faction): Set<FLocation>
 }
