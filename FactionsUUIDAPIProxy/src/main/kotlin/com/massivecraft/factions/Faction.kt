@@ -31,7 +31,7 @@ class Faction(val faction: net.prosavage.factionsx.core.Faction) {
     }
 
     fun getOpen(): Boolean {
-        return faction.isOpen()
+        return faction.isClosed()
     }
 
     fun setOpen(isOpen: Boolean) {

@@ -6,7 +6,7 @@ import com.massivecraft.factions.Faction
 import com.massivecraft.factions.Factions
 import net.prosavage.factionsx.manager.GridManager
 
-class ProxyBoard : Board {
+class ProxyBoard : Board() {
     override fun getFactionAt(fLocation: FLocation): Faction {
         return Faction(GridManager.getFactionAt(fLocation.fLocation))
     }
