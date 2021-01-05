@@ -63,20 +63,22 @@ tasks {
 
 
             val readme = file("$releasePath/README.txt")
-            readme.writeText("Hi, thanks for reading!\n" +
-                    "\n" +
-                    "The FactionsX-${project.version} is a normal minecraft plugin, can goes in the \"/plugins/\" folder.\n" +
-                    "All jar files in the \"Addons\" folder, go in the \"/plugins/FactionsX/addons/\" folder.\n" +
-                    "* F CropUpgrades Addon is 1.13+.\n" +
-                    "\n" +
-                    "The FactionsUUIDAPIProxy attempts to imitate FactionsUUID being present on your server, and proxies the API calls to FactionsX,\n" +
-                    "this allows plugins using FactionsUUID's API to work with FactionsX. This is a very new addition and I dont expect it to work perfectly\n" +
-                    "as it IS a hack. If you have issues with a plugin feel free to come to our discord for support.\n" +
-                    "* FactionsUUIDAPIProxy is a minecraft plugin and goes in \"/plugins/\".\n" +
-                    "\n" +
-                    "\n" +
-                    "Discord: https://discord.gg/savagelabs\n" +
-                    "Wiki: https://wiki.savagelabs.net")
+            readme.writeText(
+                "Hi, thanks for reading!\n" +
+                        "\n" +
+                        "The FactionsX-${project.version} is a normal minecraft plugin, can goes in the \"/plugins/\" folder.\n" +
+                        "All jar files in the \"Addons\" folder, go in the \"/plugins/FactionsX/addons/\" folder.\n" +
+                        "* F CropUpgrades Addon is 1.13+.\n" +
+                        "\n" +
+                        "The FactionsUUIDAPIProxy attempts to imitate FactionsUUID being present on your server, and proxies the API calls to FactionsX,\n" +
+                        "this allows plugins using FactionsUUID's API to work with FactionsX. This is a very new addition and I dont expect it to work perfectly\n" +
+                        "as it IS a hack. If you have issues with a plugin feel free to come to our discord for support.\n" +
+                        "* FactionsUUIDAPIProxy is a minecraft plugin and goes in \"/plugins/\".\n" +
+                        "\n" +
+                        "\n" +
+                        "Discord: https://discord.gg/savagelabs\n" +
+                        "Wiki: https://wiki.savagelabs.net"
+            )
             zipTo(File("${buildDir}/release/FactionsX-Release-${project.version}.zip"), File(releasePath))
         }
     }
@@ -87,8 +89,10 @@ tasks {
         dependsOn(copyToRoot)
         doLast {
             if (project.hasProperty("serverPluginDirectory").not()) {
-                println("No serverPluginDirectory argument found, ex: \n" +
-                        "gradle shadowJar copyToServer -PserverPluginDirectory=~/Documents/mc-server/plugins/")
+                println(
+                    "No serverPluginDirectory argument found, ex: \n" +
+                            "gradle shadowJar copyToServer -PserverPluginDirectory=~/Documents/mc-server/plugins/"
+                )
                 return@doLast
             }
             println("copying $serverPluginDirectory")
@@ -113,6 +117,8 @@ tasks {
 }
 
 subprojects {
+
+
     repositories {
         mavenLocal()
         mavenCentral()
