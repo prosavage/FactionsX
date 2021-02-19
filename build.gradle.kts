@@ -2,7 +2,7 @@ import org.gradle.kotlin.dsl.support.zipTo
 
 allprojects {
     group = "net.prosavage.factionsx"
-    version = "1.0.9-RC"
+    version = "1.1-STABLE"
 }
 
 plugins {
