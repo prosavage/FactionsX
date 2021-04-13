@@ -7,12 +7,11 @@ allprojects {
 
 plugins {
     java
-    kotlin("jvm") version "1.4.21"
+    kotlin("jvm") version "1.4.30"
     id("com.github.johnrengelman.shadow") version "5.2.0"
 }
 
 val serverPluginDirectory: String by project
-
 
 tasks {
 
