@@ -2,7 +2,7 @@ import org.gradle.kotlin.dsl.support.zipTo
 
 allprojects {
     group = "net.prosavage.factionsx"
-    version = "1.1.1-STABLE"
+    version = "1.2-STABLE"
 }
 
 plugins {
@@ -75,6 +75,8 @@ tasks {
                         "as it IS a hack. If you have issues with a plugin feel free to come to our discord for support.\n" +
                         "* FactionsUUIDAPIProxy is a minecraft plugin and goes in \"/plugins/\".\n" +
                         "\n" +
+                        "\n" +
+                        "Basic documentation for permissions or commands specific to this build can be found in the \"/plugins/FactionsX/docs\" folder\n" +
                         "\n" +
                         "Discord: https://discord.gg/savagelabs\n" +
                         "Wiki: https://wiki.savagelabs.net"
@@ -159,6 +161,8 @@ subprojects {
         maven("https://ci.ender.zone/plugin/repository/everything/")
         maven("https://minevolt.net/repo/")
         maven("http://repo.citizensnpcs.co/")
+
+        maven("http://nexus.sirblobman.xyz/repository/public/")
 
         maven("https://jitpack.io")
     }
