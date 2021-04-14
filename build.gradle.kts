@@ -162,6 +162,8 @@ subprojects {
         maven("https://minevolt.net/repo/")
         maven("http://repo.citizensnpcs.co/")
 
+        maven("http://nexus.sirblobman.xyz/repository/public/")
+
         maven("https://jitpack.io")
     }
 }
