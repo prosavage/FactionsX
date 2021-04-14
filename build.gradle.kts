@@ -76,7 +76,8 @@ tasks {
                         "* FactionsUUIDAPIProxy is a minecraft plugin and goes in \"/plugins/\".\n" +
                         "\n" +
                         "\n" +
-                        "Basic documentation for permissions or commands specific to this build can be found in the \"/plugins/FactionsX/docs\" folder\n" +
+                        "Basic documentation for permissions or commands specific to this build can be found in the \"/plugins/FactionsX/docs\" " +
+                        "folder after the first time starting up\n" +
                         "\n" +
                         "Discord: https://discord.gg/savagelabs\n" +
                         "Wiki: https://wiki.savagelabs.net"
