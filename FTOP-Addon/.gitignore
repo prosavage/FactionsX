@@ -1,0 +1,5 @@
+.idea/
+FTOP-Addon.iml
+target/
+.DS_Store
+/debug.properties

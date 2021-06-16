@@ -1,0 +1,18 @@
+name: FactionsX
+api-version: '1.13'
+version: @project.version@
+author: ProSavage
+description: 'A high-octane factions experience.'
+main: net.prosavage.factionsx.FactionsX
+website: 'https://savagelabs.net'
+prefix: 'FactionsX'
+load: POSTWORLD
+softdepend: [ PlaceholderAPI, ShopGUIPlus, FeatherBoard, WorldGuard, Vault, dynmap, Essentials ]
+loadbefore: [ FTOPX, CollectorsX ]
+commands:
+  factions:
+    description: 'the base factions command'
+    aliases: [ f, fac, facs, faction ]
+  fx:
+    description: 'The base admin command'
+    aliases: [ fax, factionsx, factionx ]

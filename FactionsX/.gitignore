@@ -1,0 +1,10 @@
+# Project exclude paths
+/target/
+/final/
+.idea/
+copy-to-server.sh
+FactionsX.iml
+.DS_Store
+./src/test/
+.gradle/
+build/
