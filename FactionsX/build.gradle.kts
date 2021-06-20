@@ -23,7 +23,7 @@ dependencies {
     implementation("com.github.MinusKube:SmartInvs:master-SNAPSHOT")
     implementation("com.github.officialrarlab:FastBoard:b6887c9a5f")
     implementation(files("./lib/WorldGuardWrapper-1.0.1.jar"))
-    implementation("me.oliwer:BossBarAV:1.0")
+    implementation("me.oliwer:BossBarAV:1.1")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7")
     compileOnly("net.ess3:EssentialsX:2.17.2")
     compileOnly("org.spigotmc:spigot-api:1.16.4-R0.1-SNAPSHOT")
