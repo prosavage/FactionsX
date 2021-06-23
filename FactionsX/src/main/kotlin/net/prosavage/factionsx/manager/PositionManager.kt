@@ -1,5 +1,6 @@
 package net.prosavage.factionsx.manager
 
+import com.cryptomorin.xseries.messages.Titles
 import io.papermc.lib.PaperLib
 import me.oliwer.bossbarav.BossBarWorker
 import net.prosavage.factionsx.FactionsX
@@ -74,8 +75,13 @@ class PositionMonitor : Runnable {
                         }
 
                         if (Config.positionMonitorChunkChangeTitle && fPlayer.enabledChunkMessage && chunkMessageInWorld) {
-                            player.sendTitle(color(processPlaceholders(fPlayer, factionAt, Config.positionMonitorChunkChangedTitle.title)),
-                                    color(processPlaceholders(fPlayer, factionAt, Config.positionMonitorChunkChangedTitle.subtitle)))
+                            Titles
+                                .sendTitle(player,
+                                    (20 * Config.positionMonitorChunkChangedTitleFadeInSeconds).toInt(),
+                                    (20 * Config.positionMonitorChunkChagedTitleStayInSeconds).toInt(),
+                                    (20 * Config.positionMonitorChunkChangedTitleFadeOutSeconds).toInt(),
+                                    color(processPlaceholders(fPlayer, factionAt, Config.positionMonitorChunkChangedTitle.title)),
+                                    color(processPlaceholders(fPlayer, factionAt, Config.positionMonitorChunkChangedTitle.subtitle)));
                         }
 
                         fPlayer.chunkBorderColor = getChunkBorderColor(faction, factionAt).toColorData()

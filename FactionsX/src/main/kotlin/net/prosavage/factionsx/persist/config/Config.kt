@@ -119,6 +119,9 @@ object Config : IConfigFile {
 
     data class PositionMonitorTitle(val title: String, val subtitle: String)
     var positionMonitorChunkChangedTitle = PositionMonitorTitle("{tag}", "{description}")
+    var positionMonitorChunkChangedTitleFadeInSeconds = .5
+    var positionMonitorChunkChagedTitleStayInSeconds = 1.0
+    var positionMonitorChunkChangedTitleFadeOutSeconds = .5
 
     var positionMonitorChunkChangedBossBarMessage = "&6{tag} &7- &6{description}"
 
