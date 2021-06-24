@@ -5,6 +5,7 @@ import net.prosavage.factionsx.core.CustomRole
 import net.prosavage.factionsx.core.FPlayer
 import net.prosavage.factionsx.core.Faction
 import net.prosavage.factionsx.manager.FactionManager
+import net.prosavage.factionsx.manager.FactionManager.getFaction
 import net.prosavage.factionsx.manager.PlayerManager
 import net.prosavage.factionsx.persist.Message
 import net.prosavage.factionsx.persist.color
@@ -88,7 +89,8 @@ class CommandInfo(val commandSender: CommandSender, val args: ArrayList<String>,
     }
 
     fun getArgAsFaction(index: Int, cannotReferenceYourSelf: Boolean = true, informIfNot: Boolean = true): Faction? {
-        val faction = FactionManager.getFaction(args.getOrNull(index)?.replace("_", " "))
+        val argument = args.getOrNull(index)
+        val faction = getFaction(argument?.replace("_", " ")) ?: argument?.toLongOrNull()?.let { getFaction(it) }
         if (faction == null) {
             if (informIfNot) {
                 message(Message.commandParsingFactionDoesNotExist)
