@@ -61,6 +61,7 @@ data class ProgressLocation(
  * @param startedAt      [Long] timestamp of when this progress was started.
  */
 open class BlockProgress constructor(
+    val material: XMaterial,
     val ownerThen: Long,
     val location: ProgressLocation,
     val value: Double,
@@ -91,7 +92,7 @@ open class BlockProgress constructor(
     /**
      * Terminate this block progress.
      */
-    fun terminate(material: XMaterial) {
+    fun terminate() {
         val response = factionValues.values.find { it.faction == ownerThen } ?: return
         if (response.progressive[material]?.remove(this) == false || this !is SpawnerProgress) {
             return

@@ -104,7 +104,7 @@ fun Faction.recalculate(): Response {
                         oldCollection.remove(oldProgress)
                     }
 
-                    oldCollection.add(BlockProgress(this@recalculate.id, progressLocation, thisPrice, tillFinishedMs))
+                    oldCollection.add(BlockProgress(material, this@recalculate.id, progressLocation, thisPrice, tillFinishedMs))
                 }
             }
 

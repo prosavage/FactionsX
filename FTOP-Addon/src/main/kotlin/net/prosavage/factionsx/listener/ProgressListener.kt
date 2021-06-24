@@ -4,6 +4,7 @@ import com.cryptomorin.xseries.XMaterial.matchXMaterial
 import net.prosavage.factionsx.FTOPAddon.Companion.factionValues
 import net.prosavage.factionsx.calc.progress.BlockProgress
 import net.prosavage.factionsx.calc.progress.SpawnerProgress
+import net.prosavage.factionsx.event.FactionUnClaimEvent
 import net.prosavage.factionsx.persist.data.getFLocation
 import net.prosavage.factionsx.util.component1
 import net.prosavage.factionsx.util.component2
@@ -31,7 +32,7 @@ object ProgressListener : Listener {
 
         // fetch and handle
         val material = block.type
-        fetch(block.location).thenAccept { it?.terminate(matchXMaterial(material)) }
+        fetch(block.location).thenAccept { it?.terminate() }
     }
 
     /**
@@ -43,10 +44,23 @@ object ProgressListener : Listener {
         if (this.isCancelled) return
 
         // loop, fetch and handle
-        blockList().forEach { block ->
-            val material = block.type
-            fetch(block.location).thenAccept { it?.terminate(matchXMaterial(material)) }
-        }
+        blockList().forEach { block -> fetch(block.location).thenAccept { it?.terminate() } }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    private fun FactionUnClaimEvent.onUnClaim() {
+        // make sure the event is NOT cancelled
+        if (this.isCancelled) return
+
+        // fetch and handle
+        val (x, z) = this.fLocation
+        factionValues.values
+            .find { it.faction == this.factionUnClaiming.id }
+            ?.progressive?.values
+            ?.find { set -> set.any {
+                val (chunkX, chunkZ) = it.location
+                chunkX == x.toInt() && chunkZ == z.toInt()
+            }}?.forEach { it.terminate() }
     }
 
     /**

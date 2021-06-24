@@ -1,5 +1,6 @@
 package net.prosavage.factionsx.calc.progress
 
+import com.cryptomorin.xseries.XMaterial
 import org.bukkit.entity.EntityType
 
 /**
@@ -14,4 +15,4 @@ class SpawnerProgress constructor(
     value: Double,
     tillFinishedMs: Long,
     startedAt: Long = System.currentTimeMillis()
-) : BlockProgress(ownerThen, location, value, tillFinishedMs, startedAt)
+) : BlockProgress(XMaterial.SPAWNER, ownerThen, location, value, tillFinishedMs, startedAt)
