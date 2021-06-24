@@ -32,8 +32,6 @@ class FTNTAddon : Addon() {
 
     override fun onEnable() {
         logColored("Enabling FTNT-Addon!")
-        logColored(this.javaClass.canonicalName)
-
         FactionsX.baseCommand.addSubCommand(CmdTntBank(FactionsX.baseCommand))
         FactionsX.baseCommand.addSubCommand(CmdTntFill(FactionsX.baseCommand))
         logColored("Injected Commands.")
