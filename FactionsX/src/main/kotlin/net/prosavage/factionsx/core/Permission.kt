@@ -49,6 +49,8 @@ enum class Permission(val node: String, val description: String, val permissionD
     JOIN("player.join", "joins a faction", PermissionDefault.TRUE),
     ADMIN_POWERBOOST("admin.powerboost", "apply a change to a player's power", PermissionDefault.OP),
     ADMIN_POWER("admin.power", "edit the power of a faction", PermissionDefault.OP),
+    ADMIN_MAX_POWER("admin.power.max", "edit the max power of players", PermissionDefault.OP),
+    ADMIN_MAX_POWER_BOOST("admin.power.max.boost", "boost players' max power", PermissionDefault.OP),
     ADMIN_KICK("admin.kick", "kick a player from their faction", PermissionDefault.OP),
     ADMIN_JOIN("admin.join", "join a specified faction", PermissionDefault.OP),
     ADMIN_INVITE("admin.invite", "invite a player to a specified faction", PermissionDefault.OP),

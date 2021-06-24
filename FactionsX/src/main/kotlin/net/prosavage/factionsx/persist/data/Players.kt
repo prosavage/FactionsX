@@ -34,7 +34,7 @@ object Players {
         if (!file.exists()) return
         val parser = JsonParser()
         val factionsInvitedToField = "factionsInvitedTo"
-        val element = parser.parse(file.reader(Charset.defaultCharset()));
+        val element = parser.parse(file.reader(Charset.defaultCharset()))
         if (element == null || !element.isJsonObject || element.asJsonObject.get("fplayers") == null) {
             logColored("&4invalid element or fplayers, skipping migration...")
             return
@@ -67,6 +67,13 @@ object Players {
                 println("migrating chunk message for $name")
                 playerObject.addProperty("enabledChunkMessage", true)
                 playerModified = true
+            }
+
+            // max power boost
+            if (!playerObject.has("maxPowerBoost")) {
+                playerObject.addProperty("maxPowerBoost", playerObject.get("powerBoost").asDouble)
+                playerObject.remove("powerBoost")
+                playerObject.addProperty("powerBoost", 0.0)
             }
 
             // modification boolean

@@ -574,6 +574,7 @@ data class FPlayer(val uuid: UUID, var name: String) {
 
     private var power: Double = Config.powerSettings.startingPower
     var powerBoost = 0.0
+    var maxPowerBoost = 0.0
 
 
     fun setPower(power: Double) {
@@ -581,7 +582,7 @@ data class FPlayer(val uuid: UUID, var name: String) {
     }
 
     fun getMaxPower(): Double {
-        return Config.powerSettings.maxPlayerPower + this.powerBoost + getFaction().maxPowerBoost
+        return Config.powerSettings.maxPlayerPower + this.maxPowerBoost + getFaction().maxPowerBoost
     }
 
     fun getMinPower(): Double {
@@ -590,7 +591,7 @@ data class FPlayer(val uuid: UUID, var name: String) {
 
     fun power(): Double {
         updatePower()
-        return this.power
+        return this.power + this.powerBoost
     }
 
     fun changePowerBy(delta: Double) {

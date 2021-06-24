@@ -53,11 +53,13 @@ object Message : IConfigFile {
 
     var positionChangedTeleportWarmup = "&7You moved, teleport cancelled."
 
-    var commandAdminPowerInvalidPowerTarget = "Invalid power target, use &6current&7 or &6max"
     var commandAdminPowerHelp = "manage a player's power"
-
     var commandAdminPowerSetSuccessfully = "&7Changed &6%1\$s's&7 power to &6%2\$s&7/&6%3\$s&7."
     var commandAdminPowerSetHelp = "set a player's power"
+
+    var commandAdminMaxPowerHelp = "manage a player's max power"
+    var commandAdminMaxPowerBoostHelp = "boost a player's max power"
+    var commandAdminMaxPowerBoostSuccess = "&7Applied a delta of &6%1\$s&7 to &6%2\$s&7, their max power is now &6%3\$s&7."
 
     var commandAdminKickSuccess = "&7You have kicked &6%1\$s&7 from their own faction."
     var commandAdminKickNotify = "&7You have been &6kicked&7 from your faction by an administrator."
