@@ -16,7 +16,7 @@ dependencies {
     implementation("net.prosavage:BasePlugin:1.9.1") // update when deployed
     implementation("me.rayzr522:jsonmessage:1.2.1")
     implementation("com.google.code.gson:gson:2.8.6")
-    implementation("com.github.cryptomorin:XSeries:7.7.0")
+    implementation("com.github.cryptomorin:XSeries:8.1.0")
     implementation("org.bstats:bstats-bukkit:1.7")
     implementation("io.papermc:paperlib:1.0.2")
     implementation("fr.mrmicky:FastParticles:1.2.3")
