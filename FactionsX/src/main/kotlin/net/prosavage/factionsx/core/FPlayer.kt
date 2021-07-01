@@ -3,8 +3,7 @@ package net.prosavage.factionsx.core
 
 import com.cryptomorin.xseries.XMaterial
 import fr.mrmicky.fastboard.FastBoard
-import fr.mrmicky.fastparticle.FastParticle
-import fr.mrmicky.fastparticle.ParticleType
+import fr.mrmicky.fastparticles.ParticleType
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import me.rayzr522.jsonmessage.JSONMessage
@@ -22,6 +21,10 @@ import net.prosavage.factionsx.manager.GridManager
 import net.prosavage.factionsx.manager.PlaceholderManager
 import net.prosavage.factionsx.persist.Message
 import net.prosavage.factionsx.persist.config.*
+import net.prosavage.factionsx.persist.config.FlyConfig.smokeOffSetX
+import net.prosavage.factionsx.persist.config.FlyConfig.smokeOffSetY
+import net.prosavage.factionsx.persist.config.FlyConfig.smokeOffSetZ
+import net.prosavage.factionsx.persist.config.FlyConfig.smokeParticleCount
 import net.prosavage.factionsx.persist.data.FLocation
 import net.prosavage.factionsx.persist.data.getFLocation
 import net.prosavage.factionsx.util.*
@@ -294,25 +297,23 @@ data class FPlayer(val uuid: UUID, var name: String) {
         val particleLocation = player?.location
         if (FlyConfig.showSmokeWhenFlyTurnsOff && !status && player != null) {
             if (isVanished()) {
-                FastParticle.spawnParticle(
+                ParticleType.of("SMOKE_LARGE").spawn(
                     player,
-                    ParticleType.SMOKE_LARGE,
                     particleLocation,
-                    FlyConfig.smokeParticleCount,
-                    FlyConfig.smokeOffSetX,
-                    FlyConfig.smokeOffSetY,
-                    FlyConfig.smokeOffSetZ,
+                    smokeParticleCount,
+                    smokeOffSetX,
+                    smokeOffSetY,
+                    smokeOffSetZ,
                     0.0
                 )
             } else {
-                FastParticle.spawnParticle(
+                ParticleType.of("SMOKE_LARGE").spawn(
                     player.world,
-                    ParticleType.SMOKE_LARGE,
                     particleLocation,
-                    FlyConfig.smokeParticleCount,
-                    FlyConfig.smokeOffSetX,
-                    FlyConfig.smokeOffSetY,
-                    FlyConfig.smokeOffSetZ,
+                    smokeParticleCount,
+                    smokeOffSetX,
+                    smokeOffSetY,
+                    smokeOffSetZ,
                     0.0
                 )
             }
@@ -345,14 +346,16 @@ data class FPlayer(val uuid: UUID, var name: String) {
             }
             val particleLocation = location.add(0.0, -0.5, 0.0)
             if (isVanished(player)) {
-                FastParticle.spawnParticle(
-                    player, ParticleType.CLOUD,
-                    particleLocation, particleCount, particleOffSetX, particleOffSetY, particleOffSetZ, 0.0
+                ParticleType.of("CLOUD").spawn(
+                    player, particleLocation,
+                    particleCount, particleOffSetX,
+                    particleOffSetY, particleOffSetZ, 0.0
                 )
             } else {
-                FastParticle.spawnParticle(
-                    player.world, ParticleType.CLOUD,
-                    particleLocation, particleCount, particleOffSetX, particleOffSetY, particleOffSetZ, 0.0
+                ParticleType.of("CLOUD").spawn(
+                    player.world, particleLocation,
+                    particleCount, particleOffSetX,
+                    particleOffSetY, particleOffSetZ, 0.0
                 )
             }
         }
@@ -820,16 +823,14 @@ data class FPlayer(val uuid: UUID, var name: String) {
 
         for (y in (location.y - 5).toInt() until (location.y + 5).toInt()) {
             for (x in cornerX until cornerX + 16 step 2) {
-                FastParticle.spawnParticle(
+                ParticleType.of("REDSTONE").spawn(
                     player,
-                    ParticleType.REDSTONE,
                     Location(location.world, x.toDouble(), y.toDouble(), cornerZ.toDouble()),
                     1,
                     chunkBorderColor?.toColor()
                 )
-                FastParticle.spawnParticle(
+                ParticleType.of("REDSTONE").spawn(
                     player,
-                    ParticleType.REDSTONE,
                     Location(location.world, x.toDouble(), y.toDouble(), cornerZ.toDouble() + 16),
                     1,
                     chunkBorderColor?.toColor()
@@ -837,16 +838,14 @@ data class FPlayer(val uuid: UUID, var name: String) {
             }
 
             for (z in cornerZ until cornerZ + 16 step 2) {
-                FastParticle.spawnParticle(
+                ParticleType.of("REDSTONE").spawn(
                     player,
-                    ParticleType.REDSTONE,
                     Location(location.world, cornerX.toDouble(), y.toDouble(), z.toDouble()),
                     1,
                     chunkBorderColor?.toColor()
                 )
-                FastParticle.spawnParticle(
+                ParticleType.of("REDSTONE").spawn(
                     player,
-                    ParticleType.REDSTONE,
                     Location(location.world, cornerX.toDouble() + 16, y.toDouble(), z.toDouble()),
                     1,
                     chunkBorderColor?.toColor()

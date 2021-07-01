@@ -19,7 +19,7 @@ dependencies {
     implementation("com.github.cryptomorin:XSeries:8.1.0")
     implementation("org.bstats:bstats-bukkit:1.7")
     implementation("io.papermc:paperlib:1.0.2")
-    implementation("fr.mrmicky:FastParticles:1.2.3")
+    implementation("fr.mrmicky:FastParticles:v2.0.0")
     implementation("com.github.MinusKube:SmartInvs:master-SNAPSHOT")
     implementation("com.github.officialrarlab:FastBoard:b6887c9a5f")
     implementation(files("./lib/WorldGuardWrapper-1.0.1.jar"))
@@ -41,6 +41,9 @@ dependencies {
 
 
 tasks {
+    compileKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
 
     jar {
         archiveFileName.set("${project.name}-lib.jar")
