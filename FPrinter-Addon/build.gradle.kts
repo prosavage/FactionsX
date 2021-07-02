@@ -13,7 +13,7 @@ dependencies {
     compileOnly("me.clip:placeholderapi:2.10.4")
     compileOnly("net.prosavage:BasePlugin:1.7.6")
     compileOnly("io.papermc:paperlib:1.0.2")
-    compileOnly("com.github.cryptomorin:XSeries:7.2.1")
+    compileOnly("com.github.cryptomorin:XSeries:8.1.0")
     compileOnly("org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT")
     compileOnly(kotlin("stdlib-jdk8"))
 }

@@ -13,8 +13,8 @@ dependencies {
     compileOnly(project(":AddonFramework"))
     compileOnly("me.clip:placeholderapi:2.10.9")
     compileOnly("net.prosavage:BasePlugin:1.7.6")
-    compileOnly("com.github.cryptomorin:XSeries:7.2.1")
-    compileOnly("org.spigotmc:spigot-api:1.16.4-R0.1-SNAPSHOT")
+    compileOnly("com.github.cryptomorin:XSeries:8.1.0")
+    compileOnly("org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT")
 }
 
 tasks {
