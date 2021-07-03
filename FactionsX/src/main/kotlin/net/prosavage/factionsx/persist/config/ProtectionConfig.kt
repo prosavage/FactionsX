@@ -83,6 +83,7 @@ object ProtectionConfig : IConfigFile {
     var minDistanceFromOtherFactions = 0
     var denyConnectedOverClaim = false
     var denyAdjacentClaimsToOtherFactions = false
+    var allowUnconnectedOverClaimOfEnemies = false
 
     var allowPistonExtensionsInOtherFaction = false
     var allowPistonRetractionsInOtherFaction = false

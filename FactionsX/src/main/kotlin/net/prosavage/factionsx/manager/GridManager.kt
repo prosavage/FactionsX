@@ -17,6 +17,7 @@ import net.prosavage.factionsx.persist.data.FLocation
 import net.prosavage.factionsx.persist.data.Grid
 import net.prosavage.factionsx.persist.data.getFLocation
 import net.prosavage.factionsx.persist.data.wrappers.getDataLocation
+import net.prosavage.factionsx.util.Relation
 import net.prosavage.factionsx.util.format
 import org.bukkit.Bukkit
 import org.bukkit.Chunk
@@ -200,7 +201,15 @@ object GridManager {
                 }
 
                 if (faction.claimAmt > 0 && ProtectionConfig.denyUnConnectedClaim && !hasAdjacentClaimOwnedBySameFaction(flocation, faction)) {
-                    if (ProtectionConfig.maxUnConnectedClaimsAllowed <= 0) {
+                    if (
+                        ProtectionConfig.maxUnConnectedClaimsAllowed <= 0 || !(
+                            ProtectionConfig.allowUnconnectedOverClaimOfEnemies
+                            && !facAt.isWilderness()
+                            && faction.getRelationTo(facAt) == Relation.ENEMY
+                            && facAt.getPower() < getAllClaims(facAt).size
+                            && !Config.disableOverclaimMechanism
+                        )
+                    ) {
                         claimFailureMap.compute(ClaimError.NOT_CONNECTED) { _, fails -> fails?.plus(1) ?: 1 }
                         totalFailures++
                         continue
