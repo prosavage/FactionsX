@@ -363,34 +363,17 @@ object GridManager {
         return false
     }
 
-
     private fun hasAdjacentClaimOwnedBySameFaction(fLocation: FLocation, claimingFac: Faction): Boolean {
         val world = Bukkit.getWorld(fLocation.world) !!
         val adjacentFactions = fLocation.getAdjacentClaims(world).map { loc -> loc.getFaction() }
-        var nearby = false
-        adjacentFactions.forEach { faction ->
-            if (!faction.isWilderness() && faction == claimingFac) {
-                nearby = true
-                return@forEach
-            }
-        }
-        return nearby
+        return adjacentFactions.any { faction -> !faction.isWilderness() && faction == claimingFac }
     }
-
 
     private fun hasAdjacentClaimOwnedByAnotherFaction(fPlayer: FPlayer, fLocation: FLocation, claimingFac: Faction): Boolean {
         val world = fPlayer.getPlayer()!!.world
         val adjacentFactions = fLocation.getAdjacentClaims(world).map { loc -> loc.getFaction() }
-        var nearby = false
-        adjacentFactions.forEach { faction ->
-            if (!faction.isWilderness() && faction != claimingFac) {
-                nearby = true
-                return@forEach
-            }
-        }
-        return nearby
+        return adjacentFactions.any { faction -> !faction.isWilderness() && faction != claimingFac }
     }
-
 
     private fun FLocation.getAdjacentClaims(world: World): Set<FLocation> {
         return setOf(
@@ -404,7 +387,6 @@ object GridManager {
                 FLocation(x + 1, (z + 1), world.name)
         )
     }
-
 
     // TODO: make unclaim land have breakdown functional
     fun unClaimLand(faction: Faction, vararg flocations: FLocation, fplayer: FPlayer, asAdmin: Boolean = false) {
