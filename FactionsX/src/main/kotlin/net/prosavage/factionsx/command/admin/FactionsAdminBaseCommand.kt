@@ -7,6 +7,7 @@ import net.prosavage.factionsx.command.admin.cmd.claim.CmdAdminClaim
 import net.prosavage.factionsx.command.admin.cmd.claim.CmdAdminUnclaim
 import net.prosavage.factionsx.command.admin.cmd.claim.CmdAdminUnclaimAll
 import net.prosavage.factionsx.command.admin.cmd.credits.CmdAdminCredits
+import net.prosavage.factionsx.command.admin.cmd.maxpower.CmdAdminMaxPower
 import net.prosavage.factionsx.command.admin.cmd.power.CmdAdminPower
 import net.prosavage.factionsx.command.admin.cmd.strikes.CmdAdminStrikes
 import net.prosavage.factionsx.command.engine.CommandInfo
@@ -37,6 +38,7 @@ class FactionsAdminBaseCommand : FCommand(), CommandExecutor, TabCompleter {
         addSubCommand(CmdAdminUnclaimAll())
         addSubCommand(CmdAdminAutoClaim())
         addSubCommand(CmdAdminJoin())
+        addSubCommand(CmdAdminMaxPower())
         addSubCommand(CmdAdminPower())
         addSubCommand(CmdAdminKick())
         addSubCommand(CmdAdminDisband())
