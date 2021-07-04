@@ -22,7 +22,7 @@ class CmdAdminMaxPowerBoost : FCommand() {
     override fun execute(info: CommandInfo): Boolean {
         val target = info.getArgAsFPlayer(0, cannotReferenceYourSelf = false, offline = true) ?: return false
         val delta = info.getArgAsDouble(1) ?: return false
-        target.maxPowerBoost += delta
+        target.maxPowerBoost = delta
         info.message(
             Message.commandAdminMaxPowerBoostSuccess,
             delta.toString(), target.name,
