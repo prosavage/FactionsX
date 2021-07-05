@@ -27,10 +27,7 @@ import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
-import org.bukkit.entity.Arrow
-import org.bukkit.entity.Entity
-import org.bukkit.entity.EntityType
-import org.bukkit.entity.Player
+import org.bukkit.entity.*
 import org.bukkit.event.*
 import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockBreakEvent
@@ -124,10 +121,10 @@ class PlayerListener : Listener {
         val factionAt = factionLocation.getFaction()
         val damagerEntity = event.damager
 
-        if (damagerEntity is Player || (damagerEntity is Arrow && damagerEntity.shooter is Player)) {
-            // Player, we gotta get the shooter if the damager is an arrow
-            val damagerPlayer =
-                    if (damagerEntity is Player) damagerEntity else (event.damager as Arrow).shooter as Player
+        if (damagerEntity is Player || (damagerEntity is Projectile && damagerEntity.shooter is Player)) {
+            // Player, we gotta get the shooter if the damager is a projectile
+            val damagerPlayer = if (damagerEntity is Player) damagerEntity
+                else (event.damager as Projectile).shooter as Player
 
             val damager = PlayerManager.getFPlayer(damagerPlayer)
             if (!this.handleAlt(damager, "HURT", event)) return
