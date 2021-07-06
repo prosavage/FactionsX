@@ -8,6 +8,7 @@ import net.prosavage.factionsx.command.admin.FactionsAdminBaseCommand
 import net.prosavage.factionsx.command.factions.FactionsBaseCommand
 import net.prosavage.factionsx.core.FPlayer
 import net.prosavage.factionsx.core.Faction
+import net.prosavage.factionsx.hook.EssentialsHook
 import net.prosavage.factionsx.hook.vault.VaultHook
 import net.prosavage.factionsx.manager.FactionManager
 import net.prosavage.factionsx.manager.PlayerManager
@@ -535,8 +536,8 @@ abstract class FCommand {
     abstract fun getHelpInfo(): String
 
     companion object {
-        private fun getSeenOnlinePlayersBy(player: Player?): Collection<Player> {
-            return Bukkit.getOnlinePlayers().filter { player?.canSee(it) ?: false }
+        private fun getSeenOnlinePlayersBy(player: Player?): Collection<Player> = Bukkit.getOnlinePlayers().filter {
+            player?.let { player -> player.canSee(it) && !EssentialsHook.playerIsVanished(player) } ?: false
         }
     }
 }
