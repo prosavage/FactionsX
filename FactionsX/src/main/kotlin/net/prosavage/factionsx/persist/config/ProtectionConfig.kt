@@ -47,6 +47,8 @@ object ProtectionConfig : IConfigFile {
             Relation.NEUTRAL to hashMapOf(PlayerAction.HURT_MOB to true)
     )
 
+    var disablePvpBetweenNeutralInWilderness = false
+
     var materialWhitelist = listOf<String>()
 
     var allowMobsToDamagePlayersInWarzone = true

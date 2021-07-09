@@ -12,11 +12,13 @@ import net.prosavage.factionsx.manager.PlaceholderManager
 import net.prosavage.factionsx.manager.PlayerManager
 import net.prosavage.factionsx.manager.actionbar
 import net.prosavage.factionsx.persist.Message
+import net.prosavage.factionsx.persist.Message.cannotHurtNeutralPlayersInWilderness
 import net.prosavage.factionsx.persist.config.Config
 import net.prosavage.factionsx.persist.config.ProtectionConfig
 import net.prosavage.factionsx.persist.config.ProtectionConfig.allowMaterialInteractionGlobally
 import net.prosavage.factionsx.persist.config.ProtectionConfig.allowedInteractableEntitiesInOtherFactionLand
 import net.prosavage.factionsx.persist.config.ProtectionConfig.blackListedInteractionBlocksInOtherFactionLand
+import net.prosavage.factionsx.persist.config.ProtectionConfig.disablePvpBetweenNeutralInWilderness
 import net.prosavage.factionsx.persist.config.ProtectionConfig.materialWhitelist
 import net.prosavage.factionsx.persist.config.ProtectionConfig.overrideActionsForRelation
 import net.prosavage.factionsx.persist.config.ProtectionConfig.overrideActionsWhenFactionOffline
@@ -199,6 +201,12 @@ class PlayerListener : Listener {
                     JSONMessage.actionbar(String.format(Message.listenerTriedToHurtYou, damager.name), damaged)
                     event.isCancelled = true
                 } else {
+                    if (factionAt.isWilderness() && relation == Relation.NEUTRAL && disablePvpBetweenNeutralInWilderness) {
+                        damager.message(cannotHurtNeutralPlayersInWilderness)
+                        event.isCancelled = true
+                        return
+                    }
+
                     // Check if player is in fly & disable if so, as we have allowed them to be damaged as they passed all the checks above.
                     if (damagee.isFFlying) damagee.setFly(false)
                     if (damager.isFFlying) damager.setFly(false)

@@ -629,6 +629,7 @@ object Message : IConfigFile {
     var youCannotInteractWithThisEntity = "&7You are not allowed to interact with &6%1\$s&7 in the territory of &6%2\$s&7."
     var youCannotDamageThisGadget = "&7You are not allowed to damage &6%1\$s &7in the territory of &6%2\$s&7."
     var deathPowerUpdate = "&7Your power is now &6%1\$s&7."
+    var cannotHurtNeutralPlayersInWilderness = "&7You cannot damage &6Neutral &7players in the &6Wilderness&7."
 
     var altUseBucket = "&7You are not allowed to use buckets as an ALT!"
     var altHurtEntities = "&7You are not allowed to hurt entities as an ALT!"
