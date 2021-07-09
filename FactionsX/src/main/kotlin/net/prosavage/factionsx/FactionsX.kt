@@ -18,10 +18,7 @@ import net.prosavage.factionsx.hook.PlaceholderAPIIntegration
 import net.prosavage.factionsx.hook.ShopGUIPlusHook
 import net.prosavage.factionsx.hook.combatlog.CombatLogHook
 import net.prosavage.factionsx.hook.vault.VaultHook
-import net.prosavage.factionsx.listener.ChatListener
-import net.prosavage.factionsx.listener.DataListener
-import net.prosavage.factionsx.listener.MiscListener
-import net.prosavage.factionsx.listener.PlayerListener
+import net.prosavage.factionsx.listener.*
 import net.prosavage.factionsx.manager.*
 import net.prosavage.factionsx.manager.PlaceholderManager.isPlaceholderApi
 import net.prosavage.factionsx.persist.color
@@ -101,7 +98,7 @@ class FactionsX : SavagePlugin() {
             baseCommand = setupCommand()
             baseAdminCommand = setupAdminCommands()
             logColored("Setup factions commands.")
-            registerListeners(DataListener(), PlayerListener(), ChatListener(), MiscListener(), bossBarController)
+            registerListeners(DataListener(), PlayerListener(), ChatListener(), MiscListener(), FactionListener, bossBarController)
             logColored("Registered Factions Listeners.")
             startPositionMonitor()
             logColored("Started Position Monitor")

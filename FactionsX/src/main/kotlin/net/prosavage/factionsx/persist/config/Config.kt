@@ -143,6 +143,7 @@ object Config : IConfigFile {
 
     var factionCreationDateFormat = "MMMM dd, yyyy, HH:mm"
     var factionCreationCommandsToExecute = listOf<String>()
+    var factionCreationAutoClaimChunkWhereStanding = false
     var factionDisbandCommandsToExecutePerPlayer = listOf<String>()
     var factionJoinCommandsToExecute = listOf<String>()
     var factionLeaveCommandsToExecute = listOf<String>()
