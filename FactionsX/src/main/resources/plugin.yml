@@ -7,7 +7,7 @@ main: net.prosavage.factionsx.FactionsX
 website: 'https://savagelabs.net'
 prefix: 'FactionsX'
 load: POSTWORLD
-softdepend: [ PlaceholderAPI, ShopGUIPlus, FeatherBoard, WorldGuard, Vault, dynmap, Essentials ]
+softdepend: [ PlaceholderAPI, ShopGUIPlus, FeatherBoard, WorldGuard, Vault, dynmap, Essentials, EconomyPlus ]
 loadbefore: [ FTOPX, CollectorsX ]
 commands:
   factions:
