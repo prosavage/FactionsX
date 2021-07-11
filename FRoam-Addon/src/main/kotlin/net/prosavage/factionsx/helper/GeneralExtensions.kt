@@ -29,6 +29,9 @@ fun Location.getCorners(size: Double, height: Double): Pair<Location, Location> 
  * @return [Boolean] if they're allowed.
  */
 fun Player.isAllowedInRegion(fLocation: FLocation): Boolean = with(FactionsX.worldGuard) {
+    if (!hooked) {
+        return@with true
+    }
     val regionId = worldGuardRegionAllowedClaimInWorlds[world.name]
     val regions = getRegionsAt(fLocation.world, fLocation.x.toInt(), fLocation.z.toInt()) as Set<ProtectedRegion>
     regions.isEmpty() || regions.any { it.id == regionId } && regions.size == 1
