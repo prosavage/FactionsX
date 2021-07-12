@@ -20,7 +20,7 @@ dependencies {
         exclude("org.jetbrains.kotlin")
     }
     compileOnly(files("./lib/spigot-1.16.4.jar"))
-    implementation(files("./lib/WorldGuardWrapper-1.0.jar"))
+    implementation("com.github.officialrarlab:WorldGuardWrapper:1.0")
 }
 
 
