@@ -9,6 +9,7 @@ import net.prosavage.factionsx.persist.settings.PowerSettings
 import net.prosavage.factionsx.util.*
 import org.bukkit.Bukkit
 import org.bukkit.Color
+import org.bukkit.Material
 import java.io.File
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -144,6 +145,10 @@ object Config : IConfigFile {
     var factionCreationDateFormat = "MMMM dd, yyyy, HH:mm"
     var factionCreationCommandsToExecute = listOf<String>()
     var factionCreationAutoClaimChunkWhereStanding = false
+    var factionCreationFillChunkBorderOnFirstClaim = false
+    var factionCreationFillChunkBorderOnFirstClaimType = XMaterial.COBBLESTONE_WALL
+    var factionCreationFillChunkBorderOnFirstClaimPassableType = setOf(XMaterial.AIR, XMaterial.GRASS, XMaterial.TALL_GRASS)
+    var factionCreationFillChunkBorderOnFirstClaimCoolDownSeconds = 86400
     var factionDisbandCommandsToExecutePerPlayer = listOf<String>()
     var factionJoinCommandsToExecute = listOf<String>()
     var factionLeaveCommandsToExecute = listOf<String>()

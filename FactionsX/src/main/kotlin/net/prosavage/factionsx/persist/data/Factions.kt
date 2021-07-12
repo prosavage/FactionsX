@@ -88,6 +88,12 @@ object Factions {
                 didModifyFaction = true
             }
 
+            // has claimed once
+            if (!factionObject.has("hasClaimedOnce")) {
+                factionObject.add("hasClaimedOnce", JsonPrimitive(Grid.claimGrid.keys.contains(factionId)))
+                didModifyFaction = true
+            }
+
             // relations
             val relations = factionObject.getAsJsonObject("relations")
             for ((relationId, _) in relations.entrySet().toSet()) {

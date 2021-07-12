@@ -28,6 +28,6 @@ object FactionListener : Listener {
         }
 
         // claim chunk
-        GridManager.claim(this.faction, fLocation)
+        GridManager.claim(this.faction, fLocation, fPlayer)
     }
 }

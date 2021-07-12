@@ -59,6 +59,8 @@ data class FPlayer(val uuid: UUID, var name: String) {
     @Transient
     var scoreboardActive = false
 
+    var latestCreationChunkBorderFill = -1L
+
     @Transient
     var namingClaim: FLocation? = null
 

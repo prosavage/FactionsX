@@ -36,6 +36,7 @@ data class Faction(val id: Long, var tag: String, val factionRoles: FactionRoles
 
     var creationDate = System.currentTimeMillis()
     val factionMembers = mutableSetOf<UUID>()
+    var hasClaimedOnce = false
 
     var factionAlts = mutableSetOf<UUID>()
         get() {

@@ -1,7 +1,11 @@
 package net.prosavage.factionsx.manager
 
+import com.cryptomorin.xseries.XMaterial
 import com.google.common.collect.ArrayListMultimap
 import com.google.common.collect.ListMultimap
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import net.prosavage.factionsx.FactionsX
 import net.prosavage.factionsx.FactionsX.Companion.worldGuard
 import net.prosavage.factionsx.core.FPlayer
 import net.prosavage.factionsx.core.Faction
@@ -10,6 +14,10 @@ import net.prosavage.factionsx.event.FactionPreClaimEvent
 import net.prosavage.factionsx.event.FactionUnClaimEvent
 import net.prosavage.factionsx.persist.Message
 import net.prosavage.factionsx.persist.config.Config
+import net.prosavage.factionsx.persist.config.Config.factionCreationFillChunkBorderOnFirstClaim
+import net.prosavage.factionsx.persist.config.Config.factionCreationFillChunkBorderOnFirstClaimCoolDownSeconds
+import net.prosavage.factionsx.persist.config.Config.factionCreationFillChunkBorderOnFirstClaimPassableType
+import net.prosavage.factionsx.persist.config.Config.factionCreationFillChunkBorderOnFirstClaimType
 import net.prosavage.factionsx.persist.config.Config.worldGuardRegionAllowedClaimInWorlds
 import net.prosavage.factionsx.persist.config.EconConfig
 import net.prosavage.factionsx.persist.config.ProtectionConfig
@@ -19,20 +27,73 @@ import net.prosavage.factionsx.persist.data.getFLocation
 import net.prosavage.factionsx.persist.data.wrappers.getDataLocation
 import net.prosavage.factionsx.util.Relation
 import net.prosavage.factionsx.util.format
-import org.bukkit.Bukkit
-import org.bukkit.Chunk
-import org.bukkit.World
+import org.bukkit.*
 import kotlin.math.roundToInt
 
 object GridManager {
-
-    fun claim(faction: Faction, fLocation: FLocation) {
+    fun claim(faction: Faction, fLocation: FLocation, fPlayer: FPlayer? = null) {
         Grid.claimGrid[fLocation] = faction.id
         if (!hasAdjacentClaimOwnedBySameFaction(fLocation, faction))
             faction.unconnectedClaimAmt++
         faction.claimAmt++
+
+        // check for one claim amount
+        if (faction.hasClaimedOnce) {
+            return
+        }
+
+        // modify value of hasClaimedOnce
+        faction.hasClaimedOnce = true
+
+        // make sure feature is enabled
+        if (
+            !factionCreationFillChunkBorderOnFirstClaim
+            || fPlayer == null
+            || (fPlayer.latestCreationChunkBorderFill + factionCreationFillChunkBorderOnFirstClaimCoolDownSeconds.times(1000)) > System.currentTimeMillis()
+        ) return
+
+        // set faction player's latest border fill
+        fPlayer.latestCreationChunkBorderFill = System.currentTimeMillis()
+
+        // set barrier of specific block at chunk borders
+        Bukkit.getScheduler().runTaskAsynchronously(FactionsX.instance, Runnable {
+            val snapshot = fLocation.getChunk()?.chunkSnapshot ?: return@Runnable
+            val locations = highestBlocksYAt(snapshot)
+
+            Bukkit.getScheduler().runTask(FactionsX.instance, Runnable {
+                locations.forEach { location -> location.block.type = factionCreationFillChunkBorderOnFirstClaimType.parseMaterial()!! }
+            })
+        })
     }
 
+    private fun highestBlocksYAt(snapshot: ChunkSnapshot): Set<Location> {
+        val locations = hashSetOf<Location>()
+        val world = Bukkit.getWorld(snapshot.worldName)
+
+        for (i in 0..15) for (y in 254 downTo 0) {
+            val first = checkBlockFromSnapshot(0, y, i, snapshot)
+            val second = checkBlockFromSnapshot(i, y, 0, snapshot)
+            val third = checkBlockFromSnapshot(15, y, i, snapshot)
+            val fourth = checkBlockFromSnapshot(i, y, 15, snapshot)
+
+            val unsignedX = snapshot.x.shl(4).toDouble()
+            val unsignedZ = snapshot.z.shl(4).toDouble()
+
+            if (first.first) locations += Location(world, unsignedX, y + first.second, unsignedZ + i)
+            if (second.first) locations += Location(world, unsignedX + i, y + second.second, unsignedZ)
+            if (third.first) locations += Location(world, unsignedX + 15, y + third.second, unsignedZ + i)
+            if (fourth.first) locations += Location(world, unsignedX + i, y + fourth.second, unsignedZ + 15)
+        }
+
+        return locations
+    }
+
+    private fun checkBlockFromSnapshot(x: Int, y: Int, z: Int, snapshot: ChunkSnapshot): Pair<Boolean, Double> {
+        val above = snapshot.getBlockType(x, y + 1, z)
+        val below = snapshot.getBlockType(x, y, z)
+        val condition = XMaterial.matchXMaterial(above) in factionCreationFillChunkBorderOnFirstClaimPassableType && below != Material.AIR
+        return condition to if (XMaterial.matchXMaterial(below) in factionCreationFillChunkBorderOnFirstClaimPassableType) 0.0 else 1.0
+    }
 
     fun getAllFactionClaimsSorted(): ListMultimap<Long, FLocation> {
         val claims = ArrayListMultimap.create<Long, FLocation>()
@@ -284,7 +345,7 @@ object GridManager {
         }
 
         successfulClaims.stream().forEach { floc ->
-            claim(faction, floc)
+            claim(faction, floc, fplayer)
         }
 
         if (successSize > 0) {
