@@ -77,7 +77,6 @@ class FactionsX : SavagePlugin() {
         }
     }
 
-    @OptIn(ExperimentalPathApi::class)
     @ExperimentalTime
     override fun onEnable() {
         instance = this
