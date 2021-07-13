@@ -112,7 +112,6 @@ class FactionsX : SavagePlugin() {
             logColored("Enabled Metrics.")
             loadHooks()
             logColored("Loaded all plugin hooks.")
-            attemptLoadOfAddons()
             logColored("Attempting to load addons.")
             baseCommand.initializeSubCommandData()
             baseAdminCommand.initializeSubCommandData()
@@ -190,17 +189,6 @@ class FactionsX : SavagePlugin() {
             CombatLogHook.instance = it
             logColored("Loaded ${it.name} as CombatLog Hook.")
         }
-    }
-
-    @ExperimentalPathApi
-    private fun attemptLoadOfAddons() {
-        val addonsDirectory = File(dataFolder, "addons")
-        if (!addonsDirectory.exists() || !addonsDirectory.isDirectory) {
-            return
-        }
-
-        val loaded = getPluginManager().loadPlugins(addonsDirectory)
-        logColored("&7Enabled &6${loaded.size}&7 addons.")
     }
 
     override fun onDisable() {
