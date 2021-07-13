@@ -1,0 +1,7 @@
+name: FShop-Addon
+main: net.prosavage.factionsx.FShopAddon
+version: 1.0.0
+author: SavageLabs
+website: www.savagelabs.net
+depend:
+  - FactionsX

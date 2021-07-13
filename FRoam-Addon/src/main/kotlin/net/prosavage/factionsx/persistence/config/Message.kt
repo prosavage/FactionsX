@@ -1,6 +1,6 @@
 package net.prosavage.factionsx.persistence.config
 
-import net.prosavage.factionsx.addonframework.Addon
+import net.prosavage.factionsx.addonframework.AddonPlugin
 import java.io.File
 
 /**
@@ -54,8 +54,8 @@ object Message {
      *
      * @param addon instance.
      */
-    fun save(addon: Addon) {
-        addon.configSerializer.save(instance, File(addon.addonDataFolder, "messages.json"))
+    fun save(addon: AddonPlugin) {
+        addon.configSerializer.save(instance, File(addon.dataFolder, "messages.json"))
     }
 
     /**
@@ -63,7 +63,7 @@ object Message {
      *
      * @param addon instance.
      */
-    fun load(addon: Addon) {
-        addon.configSerializer.load(instance, Message::class.java, File(addon.addonDataFolder, "messages.json"))
+    fun load(addon: AddonPlugin) {
+        addon.configSerializer.load(instance, Message::class.java, File(addon.dataFolder, "messages.json"))
     }
 }

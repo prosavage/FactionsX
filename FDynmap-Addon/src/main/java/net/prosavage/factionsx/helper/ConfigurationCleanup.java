@@ -2,7 +2,7 @@ package net.prosavage.factionsx.helper;
 
 import net.prosavage.baseplugin.serializer.Serializer;
 import net.prosavage.baseplugin.shade.javax.Nonnull;
-import net.prosavage.factionsx.addonframework.Addon;
+import net.prosavage.factionsx.addonframework.AddonPlugin;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -25,11 +25,11 @@ public final class ConfigurationCleanup {
      * @param <T> {@link T} type of configuration.
      */
     public static <T> void loadBySerializer(
-            final Addon addon,
+            final AddonPlugin addon,
             final boolean isData,
             @Nonnull final Class<T> configurationClass
     ) {
-        final Serializer serializer = isData ? addon.getDataSerializer() : addon.getConfigSerializer();
+        final Serializer serializer = isData ? addon.dataSerializer : addon.configSerializer;
         serializer.load(getInstance(configurationClass), configurationClass, getPath(addon, configurationClass));
     }
 
@@ -41,11 +41,11 @@ public final class ConfigurationCleanup {
      * @param <T> {@link T} type of configuration.
      */
     public static <T> void saveBySerializer(
-            final Addon addon,
+            final AddonPlugin addon,
             final boolean isData,
             @Nonnull final Class<T> configurationClass
     ) {
-        final Serializer serializer = isData ? addon.getDataSerializer() : addon.getConfigSerializer();
+        final Serializer serializer = isData ? addon.dataSerializer : addon.configSerializer;
         serializer.save(getInstance(configurationClass), getPath(addon, configurationClass));
     }
 
@@ -73,17 +73,17 @@ public final class ConfigurationCleanup {
     /**
      * Get the path of a configuration class.
      *
-     * @param addon {@link Addon} instance to be used to fetch the corresponding data folder.
+     * @param addon {@link AddonPlugin} instance to be used to fetch the corresponding data folder.
      * @param configurationClass {@link Class<T>} class used to fetch the PATH field from.
      * @param <T> {@link T} type of configuration.
      * @return {@link File}
      */
     @SuppressWarnings("unchecked")
-    private static <T> File getPath(final Addon addon, final Class<T> configurationClass) {
+    private static <T> File getPath(final AddonPlugin addon, final Class<T> configurationClass) {
         try {
             final Field field = configurationClass.getDeclaredField("PATH");
             field.setAccessible(true);
-            return ((Function<File, File>) field.get(null)).apply(addon.getAddonDataFolder());
+            return ((Function<File, File>) field.get(null)).apply(addon.getDataFolder());
         } catch (final Exception ex) {
             throw new IllegalStateException(String.format(
                     "Configuration '%s' does not have a PATH field or was illegally accessed.",

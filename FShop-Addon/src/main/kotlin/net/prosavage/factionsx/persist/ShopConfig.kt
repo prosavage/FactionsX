@@ -1,7 +1,7 @@
 package net.prosavage.factionsx.persist
 
 import com.cryptomorin.xseries.XMaterial
-import net.prosavage.factionsx.addonframework.Addon
+import net.prosavage.factionsx.addonframework.AddonPlugin
 import net.prosavage.factionsx.struct.ShopItem
 import net.prosavage.factionsx.util.SerializableItem
 import java.io.File
@@ -90,12 +90,12 @@ object ShopConfig {
     var cmdShopNotEnough = "&7You dont have enough credits for that item."
     var cmdShopHelp = "&7open faction shop."
 
-    fun save(addon: Addon) {
-        addon.configSerializer.save(instance, File(addon.addonDataFolder, "config.json"))
+    fun save(addon: AddonPlugin) {
+        addon.configSerializer.save(instance, File(addon.dataFolder, "config.json"))
     }
 
-    fun load(addon: Addon) {
-        addon.configSerializer.load(instance, ShopConfig::class.java, File(addon.addonDataFolder, "config.json"))
+    fun load(addon: AddonPlugin) {
+        addon.configSerializer.load(instance, ShopConfig::class.java, File(addon.dataFolder, "config.json"))
     }
 
 }

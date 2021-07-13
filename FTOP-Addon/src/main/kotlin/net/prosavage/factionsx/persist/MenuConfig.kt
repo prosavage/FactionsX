@@ -1,7 +1,7 @@
 package net.prosavage.factionsx.persist
 
 import com.cryptomorin.xseries.XMaterial
-import net.prosavage.factionsx.addonframework.Addon
+import net.prosavage.factionsx.addonframework.AddonPlugin
 import net.prosavage.factionsx.util.Coordinate
 import net.prosavage.factionsx.util.InterfaceItem
 import net.prosavage.factionsx.util.SerializableItem
@@ -65,11 +65,11 @@ object MenuConfig {
             ))
     )
 
-    fun save(addon: Addon) {
-        addon.configSerializer.save(instance, File(addon.addonDataFolder, "topmenu.json"))
+    fun save(addon: AddonPlugin) {
+        addon.configSerializer.save(instance, File(addon.dataFolder, "topmenu.json"))
     }
 
-    fun load(addon: Addon) {
-        addon.configSerializer.load(instance, MenuConfig::class.java, File(addon.addonDataFolder, "topmenu.json"))
+    fun load(addon: AddonPlugin) {
+        addon.configSerializer.load(instance, MenuConfig::class.java, File(addon.dataFolder, "topmenu.json"))
     }
 }

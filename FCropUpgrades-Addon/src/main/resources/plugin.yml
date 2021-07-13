@@ -1,0 +1,7 @@
+name: FCropUpgrades-Addon
+main: net.prosavage.factionsx.FCropUpgradesAddon
+version: 1.0.0
+author: SavageLabs
+website: www.savagelabs.net
+depend:
+  - FactionsX

@@ -1,26 +1,27 @@
 package net.prosavage.factionsx;
 
-import net.prosavage.factionsx.addonframework.Addon;
+import net.prosavage.factionsx.addonframework.AddonPlugin;
+import net.prosavage.factionsx.addonframework.StartupResponse;
 import net.prosavage.factionsx.cmd.CmdWild;
 import net.prosavage.factionsx.persist.CooldownData;
 import net.prosavage.factionsx.persist.WildConfig;
 
-public class FWildAddon extends Addon {
-
-    private static Addon addonInstance;
-
-    public static Addon getAddonInstance() {
-        return addonInstance;
+public class FWildAddon extends AddonPlugin {
+    /**
+     * Primary constructor;
+     */
+    public FWildAddon() {
+        super(true);
     }
 
     @Override
-    protected void onEnable() {
+    public StartupResponse onStart() {
         logColored("Enabling FWild-Addon.");
-        addonInstance = this;
         FactionsX.baseCommand.addSubCommand(new CmdWild());
         logColored("Injected Command.");
         loadFiles();
         logColored("Loaded Configuration & Data Files.");
+        return StartupResponse.ok();
     }
 
     private void loadFiles() {
@@ -35,7 +36,7 @@ public class FWildAddon extends Addon {
     }
 
     @Override
-    protected void onDisable() {
+    public void onTerminate() {
         logColored("Disabling FWild-Addon.");
         FactionsX.baseCommand.removeSubCommand(new CmdWild());
         logColored("Unregistered Command.");

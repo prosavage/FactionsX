@@ -1,0 +1,7 @@
+name: FRoam-Addon
+main: net.prosavage.factionsx.FactionRoam
+version: 1.0.0
+author: SavageLabs
+website: www.savagelabs.net
+depend:
+  - FactionsX

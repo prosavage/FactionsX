@@ -1,0 +1,7 @@
+name: FRoster-Addon
+main: net.prosavage.factionsx.FRosterAddon
+version: 1.0.0
+author: SavageLabs
+website: www.savagelabs.net
+depend:
+  - FactionsX

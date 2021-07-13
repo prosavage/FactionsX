@@ -1,0 +1,7 @@
+name: FWild-Addon
+main: net.prosavage.factionsx.FWildAddon
+version: 1.0.0
+author: SavageLabs
+website: www.savagelabs.net
+depend:
+  - FactionsX

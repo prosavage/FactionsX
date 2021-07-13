@@ -1,0 +1,7 @@
+name: FChest-Addon
+main: net.prosavage.factionsx.FChestAddon
+version: 1.0.0
+author: SavageLabs
+website: www.savagelabs.net
+depend: [FactionsX]
+load: POSTWORLD

@@ -1,7 +1,8 @@
 package net.prosavage.factionsx
 
 import com.cryptomorin.xseries.XMaterial
-import net.prosavage.factionsx.addonframework.Addon
+import net.prosavage.factionsx.addonframework.AddonPlugin
+import net.prosavage.factionsx.addonframework.StartupResponse
 import net.prosavage.factionsx.calc.Response
 import net.prosavage.factionsx.calc.ValueCalculatorTask
 import net.prosavage.factionsx.calc.progress.BlockProgress
@@ -21,11 +22,10 @@ import net.prosavage.factionsx.persist.MenuConfig
 import net.prosavage.factionsx.persist.ProgressStorage
 import net.prosavage.factionsx.util.logColored
 import org.bukkit.Bukkit
-import java.text.DecimalFormat
 import java.time.Instant
 import java.util.*
 
-class FTOPAddon : Addon() {
+class FTOPAddon : AddonPlugin(true) {
     companion object {
         var calculating = false
         var factionValues = mapOf<Long, Response>()
@@ -39,20 +39,20 @@ class FTOPAddon : Addon() {
             .find { it.value.faction == this.id }?.key
     }
 
-    override fun onEnable() {
+    override fun onStart(): StartupResponse = with (FactionsX.instance) {
         logColored("Enabling FactionsTop Addon")
         loadFiles()
         logColored("Loaded Configuration Files.")
         FactionsX.baseCommand.addSubCommand(CmdTop())
         FactionsX.baseCommand.addSubCommand(CmdCalc())
-        FactionsX.baseAdminCommand.addSubCommand(CmdAdminTop(factionsXInstance))
+        FactionsX.baseAdminCommand.addSubCommand(CmdAdminTop(this))
         logColored("Injected commands.")
 
         loadPlaceholderAPIHook().let {
             if (it) logColored("Hooked into PlaceholderAPI.")
         }
 
-        Bukkit.getPluginManager().registerEvents(ProgressListener, this.factionsXInstance)
+        Bukkit.getPluginManager().registerEvents(ProgressListener, this)
 
         if (Bukkit.getPluginManager().getPlugin("WildStacker") != null) {
             spawnerProvider = WildStackerProvider()
@@ -67,13 +67,15 @@ class FTOPAddon : Addon() {
         calculatorTask.calculate(true)
 
         val repeatTimeValueRecalc = 20L * FTOPConfig.progressiveValueUpdateEverySeconds
-        Bukkit.getScheduler().runTaskTimerAsynchronously(this.factionsXInstance, Runnable {
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, Runnable {
             factionValues.values.forEach(Response::recalculate)
         }, repeatTimeValueRecalc, repeatTimeValueRecalc)
 
         PlaceholderManager.register("ftopaddon_faction_rank") { _, faction ->
             faction.getRank()?.toString() ?: FTOPConfig.unknownValuePlaceholder
         }
+
+        StartupResponse.ok()
     }
 
     private fun startFTOPAutoCalcTask() {
@@ -86,13 +88,13 @@ class FTOPAddon : Addon() {
         ))
     }
 
-    override fun onDisable() {
+    override fun onTerminate() {
         logColored("Disabling FactionsTop Addon.")
         calculating = false
         logColored("Disabled calculation status.")
         FactionsX.baseCommand.removeSubCommand(CmdTop())
         FactionsX.baseCommand.removeSubCommand(CmdCalc())
-        FactionsX.baseAdminCommand.removeSubCommand(CmdAdminTop(factionsXInstance))
+        FactionsX.baseAdminCommand.removeSubCommand(CmdAdminTop(FactionsX.instance))
         logColored("Unregistered Commands.")
         ProgressStorage.cache = factionValues.values
             .filter { it.progressive.isNotEmpty() }
@@ -103,7 +105,7 @@ class FTOPAddon : Addon() {
 
     private fun loadPlaceholderAPIHook(): Boolean {
         return Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI").let {
-            if (it) PlaceholderAPIIntegration(factionsXInstance).register(); it
+            if (it) PlaceholderAPIIntegration(FactionsX.instance).register(); it
         }
     }
 

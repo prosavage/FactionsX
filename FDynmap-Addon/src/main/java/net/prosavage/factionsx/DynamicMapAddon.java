@@ -1,6 +1,7 @@
 package net.prosavage.factionsx;
 
-import net.prosavage.factionsx.addonframework.Addon;
+import net.prosavage.factionsx.addonframework.AddonPlugin;
+import net.prosavage.factionsx.addonframework.StartupResponse;
 import net.prosavage.factionsx.command.MapColorCommand;
 import net.prosavage.factionsx.command.engine.FCommand;
 import net.prosavage.factionsx.listener.GlobalMapListener;
@@ -19,7 +20,7 @@ import static net.prosavage.factionsx.helper.ConfigurationCleanup.loadBySerializ
 import static net.prosavage.factionsx.helper.ConfigurationCleanup.saveBySerializer;
 import static org.bukkit.Bukkit.getPluginManager;
 
-public final class DynamicMapAddon extends Addon {
+public final class DynamicMapAddon extends AddonPlugin {
     /**
      * {@link Listener} instance of the global map listener.
      */
@@ -36,16 +37,23 @@ public final class DynamicMapAddon extends Addon {
     private FCommand changeCommand;
 
     /**
+     * Primary constructor;
+     */
+    public DynamicMapAddon() {
+        super(true);
+    }
+
+    /**
      * Handle plugin enabling operations here.
      **/
     @Override
-    protected void onEnable() {
+    public StartupResponse onStart() {
         logColored("Enabling dynmap addon");
 
         // make sure that the server has got dynmap running
         if (!MapBase.attemptRegistration()) {
             this.setEnabled(false);
-            return;
+            return StartupResponse.error("Dynmap was not found.");
         }
 
         // load our config and data
@@ -66,13 +74,16 @@ public final class DynamicMapAddon extends Addon {
         // register listeners
         final PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(globalMapListener, FactionsX.instance);
+
+        // success
+        return StartupResponse.ok();
     }
 
     /**
      * Handle plugin disabling operations here.
      **/
     @Override
-    protected void onDisable() {
+    protected void onTerminate() {
         // save our config and data
         saveBySerializer(this, false, DynamicConfig.class);
         saveBySerializer(this, true, DynamicData.class);

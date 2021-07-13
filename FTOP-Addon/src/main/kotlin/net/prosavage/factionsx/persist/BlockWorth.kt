@@ -1,7 +1,7 @@
 package net.prosavage.factionsx.persist
 
 import com.cryptomorin.xseries.XMaterial
-import net.prosavage.factionsx.addonframework.Addon
+import net.prosavage.factionsx.addonframework.AddonPlugin
 import org.bukkit.entity.EntityType
 import java.io.File
 
@@ -20,14 +20,13 @@ object BlockWorth {
             EntityType.SKELETON to 25000.0
     )
 
-    fun save(addon: Addon) {
-        addon.configSerializer.save(instance, File(addon.addonDataFolder, "blockvalues.json"))
+    fun save(addon: AddonPlugin) {
+        addon.configSerializer.save(instance, File(addon.dataFolder, "blockvalues.json"))
     }
 
-    fun load(addon: Addon) {
+    fun load(addon: AddonPlugin) {
         EntityType.values().forEach { entityType -> spawnerValues.putIfAbsent(entityType, 100.0) }
         XMaterial.values().forEach { xmat -> values.putIfAbsent(xmat, 0.0) }
-        addon.configSerializer.load(instance, BlockWorth::class.java, File(addon.addonDataFolder, "blockvalues.json"))
+        addon.configSerializer.load(instance, BlockWorth::class.java, File(addon.dataFolder, "blockvalues.json"))
     }
-
 }

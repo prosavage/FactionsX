@@ -13,13 +13,11 @@ dependencies {
     compileOnly(kotlin("stdlib-jdk8"))
     compileOnly("com.github.cryptomorin:XSeries:8.1.0")
     compileOnly("org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT")
-
-    implementation("com.github.MinusKube:SmartInvs:master-SNAPSHOT")
+    compileOnly("com.github.MinusKube:SmartInvs:master-SNAPSHOT")
 }
 
 
 tasks {
-
     compileKotlin {
         kotlinOptions { jvmTarget = "1.8" }
         sourceCompatibility = "1.8"

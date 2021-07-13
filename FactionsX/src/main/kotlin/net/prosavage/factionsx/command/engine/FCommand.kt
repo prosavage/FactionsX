@@ -298,14 +298,6 @@ abstract class FCommand {
         }
     }
 
-    class AddonArgumentType : ArgumentType() {
-        override fun getPossibleValues(fPlayer: FPlayer?): List<String> {
-            val addons = FactionsX.addonManager.addOns.stream().map { addon -> addon.name }.toList().toMutableList()
-            addons.add("all")
-            return addons
-        }
-    }
-
     class PlayerArgument : FCommand.ArgumentType() {
         override fun getPossibleValues(fPlayer: FPlayer?): List<String> {
             val valuePlayer = fPlayer?.getPlayer()

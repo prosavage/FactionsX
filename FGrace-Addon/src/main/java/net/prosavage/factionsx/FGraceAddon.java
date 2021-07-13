@@ -1,6 +1,7 @@
 package net.prosavage.factionsx;
 
-import net.prosavage.factionsx.addonframework.Addon;
+import net.prosavage.factionsx.addonframework.AddonPlugin;
+import net.prosavage.factionsx.addonframework.StartupResponse;
 import net.prosavage.factionsx.cmd.CmdGrace;
 import net.prosavage.factionsx.cmd.admin.CmdAdminGrace;
 import net.prosavage.factionsx.hook.PlaceholderAPI;
@@ -16,13 +17,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class FGraceAddon extends Addon {
-
+public class FGraceAddon extends AddonPlugin {
     public static final String GRACE_TASK_ID = "GRACE";
-    private static Addon addonInstance;
 
-    public static Addon getAddonInstance() {
-        return addonInstance;
+    /**
+     * Primary constructor;
+     */
+    public FGraceAddon() {
+        super(true);
     }
 
     public static TimeTask getGraceTimer() {
@@ -30,9 +32,8 @@ public class FGraceAddon extends Addon {
     }
 
     @Override
-    protected void onEnable() {
+    public StartupResponse onStart() {
         logColored("Enabling FGrace-Addon.");
-        addonInstance = this;
         loadFiles();
         Date graceEndDate = null;
         logColored("Loaded Configuration & Data Files.");
@@ -45,7 +46,7 @@ public class FGraceAddon extends Addon {
             if (!GraceConfig.graceEnabled) {
                 logColored("&4GRACE IS DISABLED IN CONFIG.");
             } else {
-                logColored("Grace " + (GraceConfig.hasGraceEnded(true) ? "&chas ended" : "&ais on countdown"));
+                logColored("Grace " + (GraceConfig.hasGraceEnded(true, this) ? "&chas ended" : "&ais on countdown"));
             }
         } catch (ParseException e) {
             logColored("INVALID formatting for graceEnd option in config!");
@@ -54,7 +55,7 @@ public class FGraceAddon extends Addon {
         FactionsX.baseCommand.addSubCommand(new CmdGrace());
         FactionsX.baseAdminCommand.addSubCommand(new CmdAdminGrace(this));
         logColored("Injected commands.");
-        Bukkit.getServer().getPluginManager().registerEvents(new ExplosionListener(), addonInstance.getFactionsXInstance());
+        Bukkit.getServer().getPluginManager().registerEvents(new ExplosionListener(), FactionsX.instance);
         logColored("Registered Grace Listener.");
 
         if (GraceConfig.graceEnabled) {
@@ -63,6 +64,7 @@ public class FGraceAddon extends Addon {
 
         logColored("Hooking...");
         this.hook();
+        return StartupResponse.ok();
     }
 
     public void enableTask(final boolean logUnable) {
@@ -86,7 +88,7 @@ public class FGraceAddon extends Addon {
 
     private void hook() {
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            new PlaceholderAPI(this.getFactionsXInstance().getDescription().getVersion()).register();
+            new PlaceholderAPI(FactionsX.instance.getDescription().getVersion()).register();
             logColored("Hooked into PlaceholderAPI.");
         }
     }
@@ -96,9 +98,10 @@ public class FGraceAddon extends Addon {
     }
 
     @Override
-    protected void onDisable() {
+    public void onTerminate() {
         logColored("Disabling FGrace-Addon.");
         saveFiles();
+
         logColored("Saved Configuration and Data Files.");
         FactionsX.baseCommand.removeSubCommand(new CmdGrace());
     }

@@ -1,0 +1,7 @@
+name: FTOP-Addon
+main: net.prosavage.factionsx.FTOPAddon
+version: 1.0.0
+author: SavageLabs
+website: www.savagelabs.net
+depend:
+  - FactionsX

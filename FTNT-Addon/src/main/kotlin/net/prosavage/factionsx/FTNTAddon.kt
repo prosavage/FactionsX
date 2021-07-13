@@ -1,6 +1,7 @@
 package net.prosavage.factionsx
 
-import net.prosavage.factionsx.addonframework.Addon
+import net.prosavage.factionsx.addonframework.AddonPlugin
+import net.prosavage.factionsx.addonframework.StartupResponse
 import net.prosavage.factionsx.cmd.tnt.bank.CmdTntBank
 import net.prosavage.factionsx.cmd.tnt.tntfill.CmdTntFill
 import net.prosavage.factionsx.command.engine.ConfirmAction
@@ -11,11 +12,11 @@ import net.prosavage.factionsx.manager.UpgradeManager
 import net.prosavage.factionsx.persist.TNTAddonData
 import net.prosavage.factionsx.persist.TNTConfig
 import net.prosavage.factionsx.util.SpecialAction
+import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 
-class FTNTAddon : Addon() {
-
+class FTNTAddon : AddonPlugin(true) {
     companion object {
         val tntFillAction: SpecialAction by lazy { TNTFillAction() }
         val tntBankAction: SpecialAction by lazy { TNTBankAction() }
@@ -29,8 +30,7 @@ class FTNTAddon : Addon() {
         }
     }
 
-
-    override fun onEnable() {
+    override fun onStart(): StartupResponse {
         logColored("Enabling FTNT-Addon!")
         FactionsX.baseCommand.addSubCommand(CmdTntBank(FactionsX.baseCommand))
         FactionsX.baseCommand.addSubCommand(CmdTntFill(FactionsX.baseCommand))
@@ -46,7 +46,8 @@ class FTNTAddon : Addon() {
         UpgradeManager.registerUpgrade(TNTConfig.tntBankUpgrade.scope, tntBankUpgrade)
         logColored("Registered TNTBank Upgrade.")
 
-        factionsXInstance.server.pluginManager.registerEvents(ConfirmationListener(), factionsXInstance)
+        Bukkit.getServer().pluginManager.registerEvents(ConfirmationListener(), FactionsX.instance)
+        return StartupResponse.ok()
     }
 
     fun getTNTAddonData()  = TNTAddonData.tntData
@@ -56,7 +57,7 @@ class FTNTAddon : Addon() {
         TNTAddonData.load(this)
     }
 
-    override fun onDisable() {
+    override fun onTerminate() {
         logColored("Disabling FTNT-Addon!")
         SpecialActionManager.removeSpecialAction(tntFillAction)
         SpecialActionManager.removeSpecialAction(tntBankAction)

@@ -1,21 +1,22 @@
 package net.prosavage.factionsx
 
 import com.cryptomorin.xseries.XMaterial
-import net.prosavage.factionsx.addonframework.Addon
+import net.prosavage.factionsx.addonframework.AddonPlugin
+import net.prosavage.factionsx.addonframework.StartupResponse
 import net.prosavage.factionsx.manager.UpgradeManager
 import net.prosavage.factionsx.persist.CropsUpgradesConfig
 import net.prosavage.factionsx.upgrade.CropUpgrade
 
-class FCropUpgradesAddon : Addon() {
-
-
-    override fun onEnable() {
+class FCropUpgradesAddon : AddonPlugin(true) {
+    override fun onStart(): StartupResponse {
         if (XMaterial.isNewVersion().not()) {
-            logColored("This addon is compatible with 1.13 or higher server software only.")
-            logColored("Upgrades, and configuration will not be loaded.")
-            return
+            return StartupResponse.error("This addon is compatible with 1.13 or higher server software only.")
         }
+
+        // load all crop upgrades
         CropsUpgradesConfig.load(this)
+
+        // loop and register if enabled
         CropsUpgradesConfig.cropUpgrades.forEach { cropUpgrade ->
             if (cropUpgrade.enabled) {
                 UpgradeManager.registerUpgrade(cropUpgrade.scope, CropUpgrade(
@@ -28,12 +29,15 @@ class FCropUpgradesAddon : Addon() {
                 logColored("Registered Upgrade: ${cropUpgrade.name}")
             }
         }
+
+        return StartupResponse.ok()
     }
 
-    override fun onDisable() {
+    override fun onTerminate() {
         if (XMaterial.isNewVersion().not()) {
             return
         }
+
         // for reloading on shutdown.
         CropsUpgradesConfig.load(this)
         CropsUpgradesConfig.cropUpgrades.forEach { cropUpgrade ->

@@ -1,0 +1,7 @@
+name: FGrace-Addon
+main: net.prosavage.factionsx.FGraceAddon
+version: 1.0.0
+author: SavageLabs
+website: www.savagelabs.net
+depend:
+  - FactionsX

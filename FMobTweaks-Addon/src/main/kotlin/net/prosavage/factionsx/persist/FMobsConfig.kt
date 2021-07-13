@@ -1,6 +1,6 @@
 package net.prosavage.factionsx.persist
 
-import net.prosavage.factionsx.addonframework.Addon
+import net.prosavage.factionsx.addonframework.AddonPlugin
 import org.bukkit.entity.EntityType
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason
 import java.io.File
@@ -26,12 +26,12 @@ object FMobsConfig {
         }
     }
 
-    fun save(addon: Addon) {
-        addon.configSerializer.save(instance, File(addon.addonDataFolder, "config.json"))
+    fun save(addon: AddonPlugin) {
+        addon.configSerializer.save(instance, File(addon.dataFolder, "config.json"))
     }
 
-    fun load(addon: Addon) {
+    fun load(addon: AddonPlugin) {
         populateOptions()
-        addon.configSerializer.load(instance, FMobsConfig::class.java, File(addon.addonDataFolder, "config.json"))
+        addon.configSerializer.load(instance, FMobsConfig::class.java, File(addon.dataFolder, "config.json"))
     }
 }

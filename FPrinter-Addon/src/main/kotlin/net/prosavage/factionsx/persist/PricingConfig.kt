@@ -1,6 +1,6 @@
 package net.prosavage.factionsx.persist
 
-import net.prosavage.factionsx.addonframework.Addon
+import net.prosavage.factionsx.addonframework.AddonPlugin
 import org.bukkit.Material
 import java.io.File
 
@@ -12,15 +12,15 @@ object PricingConfig {
     var blockValues = hashMapOf<Material, Double>()
 
 
-    fun save(addon: Addon) {
-        addon.configSerializer.save(instance, File(addon.addonDataFolder, "pricing-config.json"))
+    fun save(addon: AddonPlugin) {
+        addon.configSerializer.save(instance, File(addon.dataFolder, "pricing-config.json"))
     }
 
-    fun load(addon: Addon) {
+    fun load(addon: AddonPlugin) {
         addon.configSerializer.load(
                 instance,
                 PricingConfig::class.java,
-                File(addon.addonDataFolder, "pricing-config.json")
+                File(addon.dataFolder, "pricing-config.json")
         )
         Material.values().forEach { material ->
             blockValues.putIfAbsent(material, 100.0)

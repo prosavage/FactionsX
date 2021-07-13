@@ -3,15 +3,13 @@ package net.prosavage.factionsx.persist;
 import com.cryptomorin.xseries.XMaterial;
 import net.prosavage.factionsx.FWildAddon;
 import net.prosavage.factionsx.FactionsX;
-import net.prosavage.factionsx.addonframework.Addon;
+import net.prosavage.factionsx.addonframework.AddonPlugin;
 
 import java.io.File;
 import java.util.*;
 
 public class WildConfig {
-
     public static transient WildConfig instance = new WildConfig();
-
 
     public static EnumSet<XMaterial> unsafeBlocks = EnumSet.of(
             XMaterial.WATER,
@@ -19,7 +17,6 @@ public class WildConfig {
             XMaterial.MAGMA_BLOCK,
             XMaterial.VOID_AIR
     );
-
 
     public static int centerX = 0;
     public static int centerZ = 0;
@@ -35,7 +32,6 @@ public class WildConfig {
     public static String coolDownDeny = "&7Wild Teleport is on cooldown for &6%1$s&7 seconds.";
     public static boolean useCoolDownBypassPermission = true;
     public static String cooldownBypassPermission = "factionsx.wild-cooldown-bypass";
-
 
     public static boolean usePermission = false;
     public static String wildPermission = "factionsx.wild";
@@ -62,14 +58,12 @@ public class WildConfig {
         blacklistedWorlds.add("example-3");
     }
 
-    public static void save(Addon addon) {
-        addon.getConfigSerializer().save(instance, new File(FWildAddon.getAddonInstance().getAddonDataFolder(), "config.json"));
+    public static void save(AddonPlugin addon) {
+        addon.configSerializer.save(instance, new File(addon.getDataFolder(), "config.json"));
     }
 
-    public static void load(Addon addon) {
+    public static void load(AddonPlugin addon) {
         FactionsX.baseCommand.getHelpInfo();
-        addon.getConfigSerializer().load(instance, WildConfig.class, new File(FWildAddon.getAddonInstance().getAddonDataFolder(), "config.json"));
+        addon.configSerializer.load(instance, WildConfig.class, new File(addon.getDataFolder(), "config.json"));
     }
-
-
 }

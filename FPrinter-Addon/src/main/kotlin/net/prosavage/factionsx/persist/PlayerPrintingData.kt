@@ -1,6 +1,6 @@
 package net.prosavage.factionsx.persist
 
-import net.prosavage.factionsx.addonframework.Addon
+import net.prosavage.factionsx.addonframework.AddonPlugin
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.inventory.Inventory
@@ -18,11 +18,11 @@ object PrinterData {
 
     var inPrinter: HashMap<UUID, PlayerPrintingData> = hashMapOf()
 
-    fun save(addon: Addon) {
-        addon.configSerializer.save(instance, File(addon.addonDataFolder, "printer-data.json"))
+    fun save(addon: AddonPlugin) {
+        addon.configSerializer.save(instance, File(addon.dataFolder, "printer-data.json"))
     }
 
-    fun load(addon: Addon) {
-        addon.configSerializer.load(instance, PrinterData::class.java, File(addon.addonDataFolder, "printer-data.json"))
+    fun load(addon: AddonPlugin) {
+        addon.configSerializer.load(instance, PrinterData::class.java, File(addon.dataFolder, "printer-data.json"))
     }
 }

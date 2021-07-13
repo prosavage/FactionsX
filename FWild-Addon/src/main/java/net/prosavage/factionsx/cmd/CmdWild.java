@@ -3,6 +3,7 @@ package net.prosavage.factionsx.cmd;
 import com.cryptomorin.xseries.XMaterial;
 import io.papermc.lib.PaperLib;
 import net.prosavage.factionsx.FWildAddon;
+import net.prosavage.factionsx.FactionsX;
 import net.prosavage.factionsx.command.engine.CommandInfo;
 import net.prosavage.factionsx.command.engine.CommandRequirementsBuilder;
 import net.prosavage.factionsx.command.engine.FCommand;
@@ -118,8 +119,10 @@ public class CmdWild extends FCommand {
                     info.message(WildConfig.unsafeLocation);
                     if (WildConfig.automaticRetry) {
                         info.message(WildConfig.automaticRetryMessage, WildConfig.automaticRetryDelay + "");
-                        Bukkit.getScheduler().runTaskLater(FWildAddon.getAddonInstance().getFactionsXInstance(),
-                                () -> runRandomTp(info, player), WildConfig.automaticRetryDelay * 20L);
+                        Bukkit.getScheduler().runTaskLater(
+                            FactionsX.instance,
+                            () -> runRandomTp(info, player), WildConfig.automaticRetryDelay * 20L
+                        );
                     }
                 });
     }

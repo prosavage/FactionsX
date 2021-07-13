@@ -3,12 +3,11 @@ plugins {
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT")
     compileOnly("net.prosavage:BasePlugin:1.7.6")
 }
 
 tasks {
-
     compileJava {
         sourceCompatibility = "1.8"
         targetCompatibility = "1.8"

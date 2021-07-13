@@ -59,7 +59,9 @@ tasks {
 
     val shadowJar = named<ShadowJar>("shadowJar") {
         mergeServiceFiles()
-        minimize()
+        minimize {
+            exclude(project(":AddonFramework"))
+        }
 
         val shadePath = "net.prosavage.factionsx.shade"
         relocate("kotlinx", "$shadePath.kotlinx")

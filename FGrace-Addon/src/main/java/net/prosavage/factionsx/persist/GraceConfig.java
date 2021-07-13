@@ -1,7 +1,6 @@
 package net.prosavage.factionsx.persist;
 
-import net.prosavage.factionsx.FGraceAddon;
-import net.prosavage.factionsx.addonframework.Addon;
+import net.prosavage.factionsx.addonframework.AddonPlugin;
 
 import java.io.File;
 import java.text.ParseException;
@@ -10,7 +9,6 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class GraceConfig {
-
     public static transient GraceConfig instance = new GraceConfig();
 
     public static boolean graceEnabled = true;
@@ -44,13 +42,13 @@ public class GraceConfig {
         return getGraceEndDate().getTime() - new Date().getTime();
     }
 
-    public static boolean hasGraceEnded(boolean sync) throws ParseException {
+    public static boolean hasGraceEnded(boolean sync, AddonPlugin addon) throws ParseException {
         if (!graceEnabled) return true;
         boolean ended = getGraceEndDifferenceRaw() <= 0L;
         if (sync) {
             if (graceEnabled == ended) {
                 graceEnabled = !ended;
-                save(FGraceAddon.getAddonInstance());
+                save(addon);
             }
         }
         return ended;
@@ -64,12 +62,11 @@ public class GraceConfig {
                 .replace("{seconds}", TimeUnit.MILLISECONDS.toSeconds(timeLeft) % TimeUnit.MINUTES.toSeconds(1) + "");
     }
 
-    public static void save(Addon addon) {
-        addon.getConfigSerializer().save(instance, new File(FGraceAddon.getAddonInstance().getAddonDataFolder(), "grace-config.json"));
+    public static void save(AddonPlugin addon) {
+        addon.configSerializer.save(instance, new File(addon.getDataFolder(), "grace-config.json"));
     }
 
-    public static void load(Addon addon) {
-        addon.getConfigSerializer().load(instance, GraceConfig.class, new File(FGraceAddon.getAddonInstance().getAddonDataFolder(), "grace-config.json"));
+    public static void load(AddonPlugin addon) {
+        addon.configSerializer.load(instance, GraceConfig.class, new File(addon.getDataFolder(), "grace-config.json"));
     }
-
 }

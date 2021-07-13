@@ -1,6 +1,6 @@
 package net.prosavage.factionsx.persist
 
-import net.prosavage.factionsx.addonframework.Addon
+import net.prosavage.factionsx.addonframework.AddonPlugin
 import net.prosavage.factionsx.core.CustomRole
 import net.prosavage.factionsx.core.FPlayer
 import net.prosavage.factionsx.core.Faction
@@ -24,14 +24,13 @@ object RosterData {
             return field
         }
 
-    fun save(addon: Addon) {
-        addon.configSerializer.save(instance, File(addon.addonDataFolder, "data.json"))
+    fun save(addon: AddonPlugin) {
+        addon.configSerializer.save(instance, File(addon.dataFolder, "data.json"))
     }
 
-    fun load(addon: Addon) {
-        addon.configSerializer.load(instance, RosterData::class.java, File(addon.addonDataFolder, "data.json"))
+    fun load(addon: AddonPlugin) {
+        addon.configSerializer.load(instance, RosterData::class.java, File(addon.dataFolder, "data.json"))
     }
-
 }
 
 

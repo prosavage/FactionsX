@@ -9,7 +9,8 @@ import club.rarlab.classicplugin.packet.PacketInjector.inject
 import club.rarlab.classicplugin.packet.PacketInjector.uninject
 import club.rarlab.classicplugin.utility.listenTo
 import net.prosavage.factionsx.FactionsX.Companion.baseCommand
-import net.prosavage.factionsx.addonframework.Addon
+import net.prosavage.factionsx.addonframework.AddonPlugin
+import net.prosavage.factionsx.addonframework.StartupResponse
 import net.prosavage.factionsx.command.CommandRoam
 import net.prosavage.factionsx.command.engine.FCommand
 import net.prosavage.factionsx.listener.RoamListener
@@ -27,7 +28,7 @@ import java.time.Duration.ofSeconds
 /**
  * Main class to handle the Roam addon.
  */
-class FactionRoam : Addon() {
+class FactionRoam : AddonPlugin(true) {
     /**
      * [FCommand] instance of [CommandRoam].
      */
@@ -44,12 +45,12 @@ class FactionRoam : Addon() {
     }
 
     // Called when the addon enables.
-    override fun onEnable() {
+    override fun onStart(): StartupResponse {
         // Base logging.
         logColored("Enabling Roam...")
 
         // Management preparation.
-        ClassicPlugin.PLUGIN.setInstance(this.factionsXInstance)
+        ClassicPlugin.PLUGIN.setInstance(FactionsX.instance)
 
         // Configuration preparation.
         Config.load(this).then { logColored("Loaded options.") }
@@ -69,10 +70,11 @@ class FactionRoam : Addon() {
 //        Runtime.getRuntime().addShutdownHook(Thread {
 //            Bukkit.getOnlinePlayers().forEach(::uninject).then { logColored("Uninjected all online players.") }
 //        })
+        return StartupResponse.ok()
     }
 
     // Called when the addon disables.
-    override fun onDisable() {
+    override fun onTerminate() {
         // General handling.
         HandlerList.unregisterAll(listenerRoam)
         baseCommand.removeSubCommand(this.commandRoam)
@@ -88,7 +90,7 @@ class FactionRoam : Addon() {
     }
 
     // Listen to all general events.
-    private fun listenToEvents() = with(this.factionsXInstance) {
+    private fun listenToEvents() = with(FactionsX.instance) {
         // Manual.
         listenTo<PlayerJoinEvent>(EventPriority.LOWEST) { inject(PacketReader(this.player)) }
         listenTo<PlayerQuitEvent>(EventPriority.HIGHEST) { uninject(this.player) }

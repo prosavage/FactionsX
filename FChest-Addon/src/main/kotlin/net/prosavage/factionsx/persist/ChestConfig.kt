@@ -1,7 +1,7 @@
 package net.prosavage.factionsx.persist
 
 import com.cryptomorin.xseries.XMaterial
-import net.prosavage.factionsx.addonframework.Addon
+import net.prosavage.factionsx.addonframework.AddonPlugin
 import net.prosavage.factionsx.upgrade.ConfigurableUpgrade
 import net.prosavage.factionsx.upgrade.LevelInfo
 import net.prosavage.factionsx.upgrade.UpgradeScope
@@ -40,14 +40,11 @@ object ChestConfig {
             XMaterial.CHEST.name
     )
 
-
-    fun save(addon: Addon) {
-        addon.configSerializer.save(instance, File(addon.addonDataFolder, "config.json"))
+    fun save(addon: AddonPlugin) {
+        addon.configSerializer.save(instance, File(addon.dataFolder, "config.json"))
     }
 
-    fun load(addon: Addon) {
-        addon.configSerializer.load(instance, ChestConfig::class.java, File(addon.addonDataFolder, "config.json"))
+    fun load(addon: AddonPlugin) {
+        addon.configSerializer.load(instance, ChestConfig::class.java, File(addon.dataFolder, "config.json"))
     }
-
-
 }

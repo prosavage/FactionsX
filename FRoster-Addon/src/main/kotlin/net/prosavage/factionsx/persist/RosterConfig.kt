@@ -1,6 +1,6 @@
 package net.prosavage.factionsx.persist
 
-import net.prosavage.factionsx.addonframework.Addon
+import net.prosavage.factionsx.addonframework.AddonPlugin
 import java.io.File
 
 object RosterConfig {
@@ -40,12 +40,11 @@ object RosterConfig {
     var rosterJoinAlreadyHave = "&7You already are a part of a faction, please &6leave&7 it first."
     var rosterJoinHelp = "&7join a faction's roster."
 
-    fun save(addon: Addon) {
-        addon.configSerializer.save(instance, File(addon.addonDataFolder, "config.json"))
+    fun save(addon: AddonPlugin) {
+        addon.configSerializer.save(instance, File(addon.dataFolder, "config.json"))
     }
 
-    fun load(addon: Addon) {
-        addon.configSerializer.load(instance, RosterConfig::class.java, File(addon.addonDataFolder, "config.json"))
+    fun load(addon: AddonPlugin) {
+        addon.configSerializer.load(instance, RosterConfig::class.java, File(addon.dataFolder, "config.json"))
     }
-
 }

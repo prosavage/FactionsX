@@ -8,7 +8,6 @@ import me.rarlab.worldguard.WorldGuardLayer
 import me.rarlab.worldguard.helper.Fetcher
 import net.prosavage.baseplugin.SavagePlugin
 import net.prosavage.baseplugin.serializer.Serializer
-import net.prosavage.factionsx.addonframework.AddonManager
 import net.prosavage.factionsx.command.admin.FactionsAdminBaseCommand
 import net.prosavage.factionsx.command.factions.FactionsBaseCommand
 import net.prosavage.factionsx.core.registerAllPermissions
@@ -45,16 +44,17 @@ import java.util.concurrent.Callable
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
+import kotlin.io.path.ExperimentalPathApi
+import kotlin.io.path.exists
+import kotlin.io.path.isDirectory
 import kotlin.time.ExperimentalTime
 import kotlin.time.measureTime
 
 class FactionsX : SavagePlugin() {
-
     companion object {
         lateinit var instance: FactionsX
         lateinit var baseCommand: FactionsBaseCommand
         lateinit var baseAdminCommand: FactionsAdminBaseCommand
-        lateinit var addonManager: AddonManager
         lateinit var logger: Logger
         lateinit var inventoryManager: InventoryManager
         lateinit var worldGuard: WorldGuardLayer<*>
@@ -77,6 +77,7 @@ class FactionsX : SavagePlugin() {
         }
     }
 
+    @OptIn(ExperimentalPathApi::class)
     @ExperimentalTime
     override fun onEnable() {
         instance = this
@@ -111,8 +112,8 @@ class FactionsX : SavagePlugin() {
             logColored("Enabled Metrics.")
             loadHooks()
             logColored("Loaded all plugin hooks.")
-            startAddonManager()
-            logColored("Started Addon Manager.")
+            attemptLoadOfAddons()
+            logColored("Attempting to load addons.")
             baseCommand.initializeSubCommandData()
             baseAdminCommand.initializeSubCommandData()
             logColored("Initialized Command Data")
@@ -191,12 +192,15 @@ class FactionsX : SavagePlugin() {
         }
     }
 
-    private fun startAddonManager() {
-        addonManager = AddonManager(getInstance(), Serializer(true), Serializer(false))
-        addonManager.load()
-        logColored("&7Loaded All Addon Files.")
-        addonManager.enableAddons()
-        logColored("&7Enabled &6${addonManager.addOns.size}&7 addons.")
+    @ExperimentalPathApi
+    private fun attemptLoadOfAddons() {
+        val addonsDirectory = File(dataFolder, "addons")
+        if (!addonsDirectory.exists() || !addonsDirectory.isDirectory) {
+            return
+        }
+
+        val loaded = getPluginManager().loadPlugins(addonsDirectory)
+        logColored("&7Enabled &6${loaded.size}&7 addons.")
     }
 
     override fun onDisable() {
@@ -204,12 +208,9 @@ class FactionsX : SavagePlugin() {
         saveData()
         disableTasks()
         deRegisterUpgrades()
-        disableAddonManager()
         TimerManager.timedTasks.clear()
         PlaceholderManager.unregisterAll()
     }
-
-    private fun disableAddonManager() = addonManager.disableAddons()
 
     private fun loadPlaceholderAPIHook() {
         if (server.pluginManager.isPluginEnabled("PlaceholderAPI")) {
@@ -273,6 +274,4 @@ class FactionsX : SavagePlugin() {
         logColored("By: ProSavage and SavageLabs Team.")
         logColored("&9https://savagelabs.net")
     }
-
-
 }

@@ -1,0 +1,7 @@
+name: FPrinter-Addon
+main: net.prosavage.factionsx.FPrinterAddon
+version: 1.0.0
+author: SavageLabs
+website: www.savagelabs.net
+depend:
+  - FactionsX

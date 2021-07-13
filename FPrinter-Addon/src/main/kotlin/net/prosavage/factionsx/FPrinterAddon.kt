@@ -1,7 +1,8 @@
 package net.prosavage.factionsx
 
 import com.cryptomorin.xseries.XMaterial
-import net.prosavage.factionsx.addonframework.Addon
+import net.prosavage.factionsx.addonframework.AddonPlugin
+import net.prosavage.factionsx.addonframework.StartupResponse
 import net.prosavage.factionsx.command.CmdPrinter
 import net.prosavage.factionsx.core.FPlayer
 import net.prosavage.factionsx.listener.PrinterExploitListener
@@ -17,8 +18,7 @@ import org.bukkit.event.HandlerList
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.ItemStack
 
-class FPrinterAddon : Addon() {
-
+class FPrinterAddon : AddonPlugin(true) {
     lateinit var printerListener: PrinterListener
     lateinit var printerExploitListener: PrinterExploitListener
 
@@ -26,13 +26,11 @@ class FPrinterAddon : Addon() {
         lateinit var addon: FPrinterAddon
     }
 
-
-    override fun onEnable() {
+    override fun onStart(): StartupResponse {
         if (XMaterial.isNewVersion()) {
-            logColored("This addon is compatible with 1.12 or lower server software only.")
-            logColored("This addon will not be loaded.")
-            return
+            return StartupResponse.error("This addon is compatible with 1.12 or lower server software only.")
         }
+
         logColored("Enabling FPrinter-Addon!")
         addon = this
         FactionsX.baseCommand.addSubCommand(CmdPrinter())
@@ -42,14 +40,18 @@ class FPrinterAddon : Addon() {
         logColored("Loaded Inventories and Printer Data of ${PrinterData.inPrinter.size} player(s).")
         printerListener = PrinterListener()
         printerExploitListener = PrinterExploitListener()
-        Bukkit.getPluginManager().registerEvents(printerListener, factionsXInstance)
-        Bukkit.getPluginManager().registerEvents(printerExploitListener, factionsXInstance)
+        with (FactionsX.instance) {
+            Bukkit.getPluginManager().registerEvents(printerListener, this)
+            Bukkit.getPluginManager().registerEvents(printerExploitListener, this)
+        }
         logColored("Registered Listeners.")
         loadPlaceholderAPIHook()
+
+        return StartupResponse.ok()
     }
 
     private fun loadPlaceholderAPIHook() {
-        if (factionsXInstance.server.pluginManager.isPluginEnabled("PlaceholderAPI")) {
+        if (FactionsX.instance.server.pluginManager.isPluginEnabled("PlaceholderAPI")) {
             PrinterPlaceholderAPI().register()
             logColored("Hooked into PlaceholderAPI.")
         }
@@ -61,7 +63,7 @@ class FPrinterAddon : Addon() {
         PrinterData.load(this)
     }
 
-    override fun onDisable() {
+    override fun onTerminate() {
         if (XMaterial.isNewVersion()) {
             return
         }
@@ -84,7 +86,6 @@ class FPrinterAddon : Addon() {
         PrinterData.save(this)
     }
 }
-
 
 fun FPlayer.isInPrinter(): Boolean {
     return PrinterData.inPrinter.containsKey(this.uuid)

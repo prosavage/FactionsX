@@ -1,6 +1,6 @@
 package net.prosavage.factionsx.persistence.config
 
-import net.prosavage.factionsx.addonframework.Addon
+import net.prosavage.factionsx.addonframework.AddonPlugin
 import java.io.File
 
 /**
@@ -70,7 +70,7 @@ object Config {
      *
      * @param addon instance.
      */
-    fun save(addon: Addon) = addon.configSerializer.save(instance, File(addon.addonDataFolder, "config.json"))
+    fun save(addon: AddonPlugin) = addon.configSerializer.save(instance, File(addon.dataFolder, "config.json"))
 
     /**
      * Load the configuration.
@@ -78,7 +78,7 @@ object Config {
      * @param addon instance.
      * @return [Config] corresponding configuration.
      */
-    fun load(addon: Addon) = addon.configSerializer.load(instance, Config::class.java, File(addon.addonDataFolder, "config.json"))
+    fun load(addon: AddonPlugin) = addon.configSerializer.load(instance, Config::class.java, File(addon.dataFolder, "config.json"))
 
     /**
      * A data class to determine options for all
