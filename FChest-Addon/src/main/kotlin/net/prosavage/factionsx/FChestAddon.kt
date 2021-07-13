@@ -5,14 +5,11 @@ import net.prosavage.factionsx.addonframework.AddonPlugin
 import net.prosavage.factionsx.addonframework.StartupResponse
 import net.prosavage.factionsx.cmd.CmdChest
 import net.prosavage.factionsx.command.engine.FCommand
-import net.prosavage.factionsx.inventory.InventoryListener
 import net.prosavage.factionsx.manager.UpgradeManager
 import net.prosavage.factionsx.persist.ChestConfig
 import net.prosavage.factionsx.persist.ChestData
 import net.prosavage.factionsx.upgrade.ChestUpgrade
 import net.prosavage.factionsx.upgrade.Upgrade
-import org.bukkit.Bukkit
-import org.bukkit.event.HandlerList
 
 import net.prosavage.factionsx.FactionsX.Companion.instance as FXInstance
 
@@ -27,9 +24,6 @@ class FChestAddon : AddonPlugin(true) {
         logColored("Registering commands...")
         chestCommand = CmdChest()
         baseCommand.addSubCommand(chestCommand)
-
-        logColored("Registering listeners...")
-        Bukkit.getPluginManager().registerEvents(InventoryListener, FXInstance)
 
         logColored("Loading config...")
         ChestConfig.load(this)
@@ -52,9 +46,6 @@ class FChestAddon : AddonPlugin(true) {
         // remove the command to make sure it doesn't get repeated in /f help etc...
         logColored("Unregistering commands...")
         baseCommand.removeSubCommand(chestCommand)
-
-        logColored("Unregistering listeners...")
-        HandlerList.unregisterAll(InventoryListener)
 
         logColored("Saving config...")
         ChestConfig.load(this)
