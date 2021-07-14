@@ -1,13 +1,11 @@
 package net.prosavage.factionsx.listener
 
-import com.cryptomorin.xseries.XMaterial
-import com.cryptomorin.xseries.XMaterial.matchXMaterial
+import com.cryptomorin.xseries.XMaterial.*
 import me.rayzr522.jsonmessage.JSONMessage
 import net.prosavage.factionsx.FactionsX.Companion.scoreboard
 import net.prosavage.factionsx.FactionsX.Companion.worldGuard
 import net.prosavage.factionsx.core.FPlayer
 import net.prosavage.factionsx.core.Faction
-import net.prosavage.factionsx.manager.FactionManager
 import net.prosavage.factionsx.manager.PlaceholderManager
 import net.prosavage.factionsx.manager.PlayerManager
 import net.prosavage.factionsx.manager.actionbar
@@ -692,7 +690,7 @@ class PlayerListener : Listener {
 
             if (action == Action.PHYSICAL) {
                 val exactMaterial = clickedBlock.type.getXMaterial()
-                if (exactMaterial == XMaterial.TRIPWIRE
+                if (exactMaterial == TRIPWIRE
                     && !handleActionProcessing(PlayerAction.HOOK, player, fPlayer, factionAt, true, location)) {
                     return false
                 }
@@ -704,7 +702,7 @@ class PlayerListener : Listener {
                     return false
                 }
 
-                if (exactMaterial === XMaterial.FARMLAND && !handleActionProcessing(PlayerAction.TRAMPLE_SOIL, player, fPlayer, factionAt, true, location)) {
+                if (exactMaterial === FARMLAND && !handleActionProcessing(PlayerAction.TRAMPLE_SOIL, player, fPlayer, factionAt, true, location)) {
                     return false
                 }
             }
@@ -724,34 +722,42 @@ class PlayerListener : Listener {
                     return handleActionProcessing(PlayerAction.USE_BLACKLISTED_BLOCKS, player, fPlayer, factionAt, notify, location)
                 }
 
-                val playerAction: PlayerAction? = when (XMaterial.matchXMaterial(clickedBlock.type)) {
-                    XMaterial.BARREL -> PlayerAction.BARREL
-                    XMaterial.SHULKER_BOX -> PlayerAction.SHULKER
-                    XMaterial.CHEST, XMaterial.TRAPPED_CHEST -> PlayerAction.CHEST
-                    XMaterial.ENDER_CHEST -> PlayerAction.ENDER_CHEST
-                    XMaterial.ANVIL, XMaterial.CHIPPED_ANVIL, XMaterial.DAMAGED_ANVIL -> PlayerAction.ANVIL
-                    XMaterial.ENCHANTING_TABLE -> PlayerAction.ENCHANTING_TABLE
-                    XMaterial.FURNACE, XMaterial.BLAST_FURNACE -> PlayerAction.FURNACE
-                    XMaterial.BREWING_STAND -> PlayerAction.BREWING_STAND
-                    XMaterial.CAULDRON -> PlayerAction.CAULDRON
-                    XMaterial.DROPPER -> PlayerAction.DROPPER
-                    XMaterial.ACACIA_BUTTON, XMaterial.BIRCH_BUTTON, XMaterial.DARK_OAK_BUTTON, XMaterial.JUNGLE_BUTTON,
-                    XMaterial.OAK_BUTTON, XMaterial.SPRUCE_BUTTON, XMaterial.STONE_BUTTON, XMaterial.CRIMSON_BUTTON,
-                    XMaterial.WARPED_BUTTON -> PlayerAction.BUTTON
-                    XMaterial.LEVER -> PlayerAction.LEVER
-                    XMaterial.ACACIA_FENCE_GATE, XMaterial.BIRCH_FENCE_GATE, XMaterial.DARK_OAK_FENCE_GATE,
-                    XMaterial.JUNGLE_FENCE_GATE, XMaterial.OAK_FENCE_GATE, XMaterial.SPRUCE_FENCE_GATE,
-                    XMaterial.CRIMSON_FENCE_GATE, XMaterial.WARPED_FENCE_GATE -> PlayerAction.FENCE_GATE
-                    XMaterial.HOPPER, XMaterial.HOPPER_MINECART -> PlayerAction.HOPPER
-                    XMaterial.LECTERN -> PlayerAction.LECTERN
-                    XMaterial.COMPARATOR -> PlayerAction.COMPARATOR
-                    XMaterial.REPEATER -> PlayerAction.REPEATER
-                    XMaterial.DISPENSER -> PlayerAction.DISPENSER
-                    XMaterial.ACACIA_DOOR, XMaterial.BIRCH_DOOR, XMaterial.DARK_OAK_DOOR, XMaterial.JUNGLE_DOOR,
-                    XMaterial.OAK_DOOR, XMaterial.SPRUCE_DOOR, XMaterial.IRON_DOOR, XMaterial.CRIMSON_DOOR, XMaterial.WARPED_DOOR -> PlayerAction.DOOR
-                    XMaterial.ACACIA_TRAPDOOR, XMaterial.BIRCH_TRAPDOOR, XMaterial.DARK_OAK_TRAPDOOR, XMaterial.JUNGLE_TRAPDOOR,
-                    XMaterial.OAK_TRAPDOOR, XMaterial.SPRUCE_TRAPDOOR, XMaterial.IRON_TRAPDOOR, XMaterial.CRIMSON_TRAPDOOR,
-                    XMaterial.WARPED_TRAPDOOR -> PlayerAction.TRAPDOOR
+                val playerAction: PlayerAction? = when (matchXMaterial(clickedBlock.type)) {
+                    BARREL -> PlayerAction.BARREL
+                    CHEST, TRAPPED_CHEST -> PlayerAction.CHEST
+                    ENDER_CHEST -> PlayerAction.ENDER_CHEST
+                    ANVIL, CHIPPED_ANVIL, DAMAGED_ANVIL -> PlayerAction.ANVIL
+                    ENCHANTING_TABLE -> PlayerAction.ENCHANTING_TABLE
+                    FURNACE, BLAST_FURNACE -> PlayerAction.FURNACE
+                    BREWING_STAND -> PlayerAction.BREWING_STAND
+                    CAULDRON -> PlayerAction.CAULDRON
+                    DROPPER -> PlayerAction.DROPPER
+                    ACACIA_BUTTON, BIRCH_BUTTON, DARK_OAK_BUTTON, JUNGLE_BUTTON,
+                    OAK_BUTTON, SPRUCE_BUTTON, STONE_BUTTON, CRIMSON_BUTTON,
+                    WARPED_BUTTON -> PlayerAction.BUTTON
+                    LEVER -> PlayerAction.LEVER
+                    ACACIA_FENCE_GATE, BIRCH_FENCE_GATE, DARK_OAK_FENCE_GATE,
+                    JUNGLE_FENCE_GATE, OAK_FENCE_GATE, SPRUCE_FENCE_GATE,
+                    CRIMSON_FENCE_GATE, WARPED_FENCE_GATE -> PlayerAction.FENCE_GATE
+                    HOPPER, HOPPER_MINECART -> PlayerAction.HOPPER
+                    LECTERN -> PlayerAction.LECTERN
+                    COMPARATOR -> PlayerAction.COMPARATOR
+                    REPEATER -> PlayerAction.REPEATER
+                    DISPENSER -> PlayerAction.DISPENSER
+                    // doors
+                    ACACIA_DOOR, BIRCH_DOOR, DARK_OAK_DOOR, JUNGLE_DOOR,
+                    OAK_DOOR, SPRUCE_DOOR, IRON_DOOR, CRIMSON_DOOR, WARPED_DOOR -> PlayerAction.DOOR
+                    // trap doors
+                    ACACIA_TRAPDOOR, BIRCH_TRAPDOOR, DARK_OAK_TRAPDOOR, JUNGLE_TRAPDOOR,
+                    OAK_TRAPDOOR, SPRUCE_TRAPDOOR, IRON_TRAPDOOR, CRIMSON_TRAPDOOR,
+                    WARPED_TRAPDOOR -> PlayerAction.TRAPDOOR
+                    // shulkers
+                    SHULKER_BOX, BLACK_SHULKER_BOX, BLUE_SHULKER_BOX,
+                    BROWN_SHULKER_BOX, CYAN_SHULKER_BOX, GRAY_SHULKER_BOX,
+                    GREEN_SHULKER_BOX, LIGHT_BLUE_SHULKER_BOX, LIGHT_GRAY_SHULKER_BOX,
+                    LIME_SHULKER_BOX, MAGENTA_SHULKER_BOX, ORANGE_SHULKER_BOX,
+                    PINK_SHULKER_BOX, PURPLE_SHULKER_BOX, RED_SHULKER_BOX,
+                    WHITE_SHULKER_BOX, YELLOW_SHULKER_BOX -> PlayerAction.SHULKER
                     else -> null
                 }
 
