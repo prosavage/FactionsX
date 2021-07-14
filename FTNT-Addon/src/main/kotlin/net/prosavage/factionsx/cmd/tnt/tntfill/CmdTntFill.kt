@@ -93,7 +93,7 @@ class CmdTntFill(parent: FCommand) : FCommand() {
         }
 
         if (gameMode != GameMode.CREATIVE) {
-            val failedToTakeTntAmount = info.fPlayer!!.takeAmountOfMaterialFromPlayerInv(XMaterial.TNT, amountToTake)
+            val failedToTakeTntAmount = amountToTake - info.fPlayer!!.takeAmountOfMaterialFromPlayerInv(XMaterial.TNT, amountToTake)
             tntData.takeTnt(failedToTakeTntAmount)
         }
 
