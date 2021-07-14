@@ -1,5 +1,6 @@
 package net.prosavage.factionsx.cmd.tnt.tntfill
 
+import com.cryptomorin.xseries.XMaterial
 import net.prosavage.factionsx.cmd.argument.TNTInInventoryArgument
 import net.prosavage.factionsx.cmd.argument.TNTRadiusArgument
 import net.prosavage.factionsx.command.engine.CommandInfo
@@ -63,7 +64,7 @@ class CmdTntFill(parent: FCommand) : FCommand() {
         }
 
         info.message(TNTConfig.commandTntFillDispensers, nearbyDispensers.size.toString())
-        val totalTnT = info.fPlayer!!.getAmountOfMaterialInPlayerInv(Material.TNT) + tntData.tntAmt
+        val totalTnT = info.fPlayer!!.getAmountOfMaterialInPlayerInv(XMaterial.TNT) + tntData.tntAmt
 
         var newAmount = if (totalTnT > amountOfTntToFill) amountOfTntToFill else totalTnT
         val amountToTake = newAmount
@@ -92,7 +93,7 @@ class CmdTntFill(parent: FCommand) : FCommand() {
         }
 
         if (gameMode != GameMode.CREATIVE) {
-            val failedToTakeTntAmount = info.fPlayer!!.takeAmountOfMaterialFromPlayerInv(Material.TNT, amountToTake)
+            val failedToTakeTntAmount = info.fPlayer!!.takeAmountOfMaterialFromPlayerInv(XMaterial.TNT, amountToTake)
             tntData.takeTnt(failedToTakeTntAmount)
         }
 
