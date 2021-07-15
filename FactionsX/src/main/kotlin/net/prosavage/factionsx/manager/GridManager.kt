@@ -17,6 +17,8 @@ import net.prosavage.factionsx.persist.config.Config.factionCreationFillChunkBor
 import net.prosavage.factionsx.persist.config.Config.factionCreationFillChunkBorderOnFirstClaimPassableType
 import net.prosavage.factionsx.persist.config.Config.factionCreationFillChunkBorderOnFirstClaimType
 import net.prosavage.factionsx.persist.config.Config.factionFirstClaimAutoSetHome
+import net.prosavage.factionsx.persist.config.Config.factionFirstClaimExecuteCommands
+import net.prosavage.factionsx.persist.config.Config.factionFirstClaimExecuteCommandsCoolDownSeconds
 import net.prosavage.factionsx.persist.config.Config.worldGuardRegionAllowedClaimInWorlds
 import net.prosavage.factionsx.persist.config.EconConfig
 import net.prosavage.factionsx.persist.config.ProtectionConfig
@@ -79,6 +81,17 @@ object GridManager {
 
                 faction.home = location.getDataLocation(withYaw = true, withPitch = true)
             })
+        }
+
+        // execute commands if present
+        if (fPlayer != null && (fPlayer.latestCreationCommandsExecution + factionFirstClaimExecuteCommandsCoolDownSeconds.times(1000)) <= System.currentTimeMillis()) {
+            fPlayer.latestCreationCommandsExecution = System.currentTimeMillis()
+            factionFirstClaimExecuteCommands.forEach {
+                Bukkit.dispatchCommand(
+                    Bukkit.getConsoleSender(),
+                    it.replace("{player}", fPlayer.name).replace("{faction}", faction.tag)
+                )
+            }
         }
 
         // make sure feature is enabled
