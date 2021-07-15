@@ -149,6 +149,7 @@ object Config : IConfigFile {
     var factionCreationFillChunkBorderOnFirstClaimType = XMaterial.COBBLESTONE_WALL
     var factionCreationFillChunkBorderOnFirstClaimPassableType = setOf(XMaterial.AIR, XMaterial.GRASS, XMaterial.TALL_GRASS)
     var factionCreationFillChunkBorderOnFirstClaimCoolDownSeconds = 86400
+    var factionFirstClaimAutoSetHome = false
     var factionDisbandCommandsToExecutePerPlayer = listOf<String>()
     var factionJoinCommandsToExecute = listOf<String>()
     var factionLeaveCommandsToExecute = listOf<String>()

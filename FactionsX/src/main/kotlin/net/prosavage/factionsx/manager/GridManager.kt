@@ -3,8 +3,6 @@ package net.prosavage.factionsx.manager
 import com.cryptomorin.xseries.XMaterial
 import com.google.common.collect.ArrayListMultimap
 import com.google.common.collect.ListMultimap
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import net.prosavage.factionsx.FactionsX
 import net.prosavage.factionsx.FactionsX.Companion.worldGuard
 import net.prosavage.factionsx.core.FPlayer
@@ -18,6 +16,7 @@ import net.prosavage.factionsx.persist.config.Config.factionCreationFillChunkBor
 import net.prosavage.factionsx.persist.config.Config.factionCreationFillChunkBorderOnFirstClaimCoolDownSeconds
 import net.prosavage.factionsx.persist.config.Config.factionCreationFillChunkBorderOnFirstClaimPassableType
 import net.prosavage.factionsx.persist.config.Config.factionCreationFillChunkBorderOnFirstClaimType
+import net.prosavage.factionsx.persist.config.Config.factionFirstClaimAutoSetHome
 import net.prosavage.factionsx.persist.config.Config.worldGuardRegionAllowedClaimInWorlds
 import net.prosavage.factionsx.persist.config.EconConfig
 import net.prosavage.factionsx.persist.config.ProtectionConfig
@@ -27,6 +26,7 @@ import net.prosavage.factionsx.persist.data.getFLocation
 import net.prosavage.factionsx.persist.data.wrappers.getDataLocation
 import net.prosavage.factionsx.util.Relation
 import net.prosavage.factionsx.util.format
+import net.prosavage.factionsx.util.isAnyAir
 import org.bukkit.*
 import kotlin.math.roundToInt
 
@@ -44,6 +44,40 @@ object GridManager {
 
         // modify value of hasClaimedOnce
         faction.hasClaimedOnce = true
+
+        // attempt to set home if option is enabled.
+        if (factionFirstClaimAutoSetHome) {
+            Bukkit.getScheduler().runTaskAsynchronously(FactionsX.instance, Runnable {
+                val snapshot = fLocation.getChunk()?.chunkSnapshot
+                var location: Location? = null
+
+                if (snapshot != null) {
+                    for (y in 253 downTo 0) {
+                        val top = snapshot.getBlockType(8, y + 2, 7)
+                        val middle = snapshot.getBlockType(8, y + 1, 7)
+                        val bottom = snapshot.getBlockType(8, y, 7)
+
+                        if (!top.isAnyAir() || !middle.isAnyAir() || bottom.isAnyAir()) {
+                            continue
+                        }
+
+                        location = Location(
+                            Bukkit.getWorld(fLocation.world),
+                            (fLocation.x * 16 + 8).toDouble(),
+                            y + 1.0,
+                            (fLocation.z * 16 + 7).toDouble()
+                        )
+                    }
+                }
+
+                fPlayer?.lastLocation?.let {
+                    location?.yaw = it.yaw
+                    location?.pitch = it.pitch
+                }
+
+                faction.home = location?.getDataLocation(withYaw = true, withPitch = true)
+            })
+        }
 
         // make sure feature is enabled
         if (
