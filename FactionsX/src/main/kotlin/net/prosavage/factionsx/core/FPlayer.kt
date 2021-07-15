@@ -60,6 +60,7 @@ data class FPlayer(val uuid: UUID, var name: String) {
     var scoreboardActive = false
 
     var latestCreationChunkBorderFill = -1L
+    var latestCreationCommandsExecution = -1L
 
     @Transient
     var namingClaim: FLocation? = null
@@ -217,16 +218,12 @@ data class FPlayer(val uuid: UUID, var name: String) {
         )
     }
 
-    fun getAmountOfMaterialInPlayerInv(material: Material): Int {
-        val inv = getPlayer()?.inventory ?: return 0
-        var amt = 0
-        for (item in inv.contents) {
-            if (item?.type == material) amt += item.amount
-        }
-        return amt
-    }
+    fun getAmountOfMaterialInPlayerInv(material: XMaterial): Int =
+        getPlayer()?.inventory?.contents?.sumBy {
+            if (it != null && XMaterial.matchXMaterial(it) === material) it.amount else 0
+        } ?: 0
 
-    fun takeAmountOfMaterialFromPlayerInv(material: Material, amount: Int): Int {
+    fun takeAmountOfMaterialFromPlayerInv(material: XMaterial, amount: Int): Int {
         val player = getPlayer() ?: return 0
         var total = 0
 
@@ -237,7 +234,7 @@ data class FPlayer(val uuid: UUID, var name: String) {
             }
 
             val item = inventory.getItem(index) ?: continue
-            if (item.type != material) {
+            if (XMaterial.matchXMaterial(item) != material) {
                 continue
             }
 
