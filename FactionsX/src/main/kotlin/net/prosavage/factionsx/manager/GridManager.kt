@@ -48,34 +48,36 @@ object GridManager {
         // attempt to set home if option is enabled.
         if (factionFirstClaimAutoSetHome) {
             Bukkit.getScheduler().runTaskAsynchronously(FactionsX.instance, Runnable {
-                val snapshot = fLocation.getChunk()?.chunkSnapshot
+                val snapshot = fLocation.getChunk()?.chunkSnapshot ?: return@Runnable
                 var location: Location? = null
 
-                if (snapshot != null) {
-                    for (y in 253 downTo 0) {
-                        val top = snapshot.getBlockType(8, y + 2, 7)
-                        val middle = snapshot.getBlockType(8, y + 1, 7)
-                        val bottom = snapshot.getBlockType(8, y, 7)
+                for (y in 253 downTo 0) {
+                    val top = snapshot.getBlockType(8, y + 2, 7)
+                    val middle = snapshot.getBlockType(8, y + 1, 7)
+                    val bottom = snapshot.getBlockType(8, y, 7)
 
-                        if (!top.isAnyAir() || !middle.isAnyAir() || bottom.isAnyAir()) {
-                            continue
-                        }
-
-                        location = Location(
-                            Bukkit.getWorld(fLocation.world),
-                            (fLocation.x * 16 + 8).toDouble(),
-                            y + 1.0,
-                            (fLocation.z * 16 + 7).toDouble()
-                        )
+                    if (!top.isAnyAir() || !middle.isAnyAir() || bottom.isAnyAir()) {
+                        continue
                     }
+
+                    location = Location(
+                        Bukkit.getWorld(fLocation.world),
+                        (fLocation.x * 16 + 8).toDouble(),
+                        y + 1.0,
+                        (fLocation.z * 16 + 7).toDouble()
+                    )
+                }
+
+                if (location == null) {
+                    return@Runnable
                 }
 
                 fPlayer?.lastLocation?.let {
-                    location?.yaw = it.yaw
-                    location?.pitch = it.pitch
+                    location.yaw = it.yaw
+                    location.pitch = it.pitch
                 }
 
-                faction.home = location?.getDataLocation(withYaw = true, withPitch = true)
+                faction.home = location.getDataLocation(withYaw = true, withPitch = true)
             })
         }
 
