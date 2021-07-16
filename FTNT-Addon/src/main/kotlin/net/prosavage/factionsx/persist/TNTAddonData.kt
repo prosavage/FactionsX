@@ -8,13 +8,13 @@ object TNTAddonData {
     @Transient
     private val instance = this
 
-    var tntData = FactionTNTData(hashMapOf())
+    internal var tntData = FactionTNTData(hashMapOf())
 
-    fun save(addon: AddonPlugin) {
+    internal fun save(addon: AddonPlugin) {
         addon.configSerializer.save(instance, File(addon.dataFolder, "tnt-data.json"))
     }
 
-    fun load(addon: AddonPlugin) {
+    internal fun load(addon: AddonPlugin) {
         addon.configSerializer.load(instance, TNTAddonData::class.java, File(addon.dataFolder, "tnt-data.json"))
     }
 }

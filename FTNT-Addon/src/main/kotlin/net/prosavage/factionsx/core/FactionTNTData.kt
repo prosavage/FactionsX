@@ -3,16 +3,12 @@ package net.prosavage.factionsx.core
 import net.prosavage.factionsx.persist.TNTConfig
 
 data class FactionTNTData(var tntBank: HashMap<Long, TNTBank>) {
-
-
     fun getTNTData(faction: Faction): TNTBank {
         if (tntBank.isNullOrEmpty()) tntBank = hashMapOf()
-        return tntBank.getOrPut(faction.id, { TNTBank(0, TNTConfig.tntBankLimit) })
+        return tntBank.getOrPut(faction.id) { TNTBank(0, TNTConfig.tntBankLimit) }
     }
 
-
     data class TNTBank(var tntAmt: Int, var limit: Int) {
-
         fun hasTnt(value: Int): Boolean {
             return tntAmt > value
         }
@@ -41,9 +37,5 @@ data class FactionTNTData(var tntBank: HashMap<Long, TNTBank>) {
             tntAmt = 0
             return allTnt
         }
-
-
     }
-
-
 }

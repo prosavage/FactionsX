@@ -2,6 +2,8 @@ package net.prosavage.factionsx
 
 import net.prosavage.factionsx.addonframework.AddonPlugin
 import net.prosavage.factionsx.addonframework.StartupResponse
+import net.prosavage.factionsx.api.SimpleAPIService
+import net.prosavage.factionsx.api.TNTBankAPI
 import net.prosavage.factionsx.cmd.tnt.bank.CmdTntBank
 import net.prosavage.factionsx.cmd.tnt.tntfill.CmdTntFill
 import net.prosavage.factionsx.command.engine.ConfirmAction
@@ -13,8 +15,10 @@ import net.prosavage.factionsx.persist.TNTAddonData
 import net.prosavage.factionsx.persist.TNTConfig
 import net.prosavage.factionsx.util.SpecialAction
 import org.bukkit.Bukkit
+import org.bukkit.Bukkit.getServicesManager
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.plugin.ServicePriority
 
 class FTNTAddon : AddonPlugin(true) {
     companion object {
@@ -32,6 +36,7 @@ class FTNTAddon : AddonPlugin(true) {
 
     override fun onStart(): StartupResponse {
         logColored("Enabling FTNT-Addon!")
+
         FactionsX.baseCommand.addSubCommand(CmdTntBank(FactionsX.baseCommand))
         FactionsX.baseCommand.addSubCommand(CmdTntFill(FactionsX.baseCommand))
         logColored("Injected Commands.")
@@ -46,11 +51,12 @@ class FTNTAddon : AddonPlugin(true) {
         UpgradeManager.registerUpgrade(TNTConfig.tntBankUpgrade.scope, tntBankUpgrade)
         logColored("Registered TNTBank Upgrade.")
 
+        getServicesManager().register(TNTBankAPI::class.java, SimpleAPIService, this, ServicePriority.Normal)
+        logColored("Registered API service.")
+
         Bukkit.getServer().pluginManager.registerEvents(ConfirmationListener(), FactionsX.instance)
         return StartupResponse.ok()
     }
-
-    fun getTNTAddonData()  = TNTAddonData.tntData
 
     private fun loadFiles() {
         TNTConfig.load(this)
@@ -59,14 +65,21 @@ class FTNTAddon : AddonPlugin(true) {
 
     override fun onTerminate() {
         logColored("Disabling FTNT-Addon!")
+
         SpecialActionManager.removeSpecialAction(tntFillAction)
         SpecialActionManager.removeSpecialAction(tntBankAction)
         logColored("Unregistered TNTBank & TNTFill special action.")
+
         FactionsX.baseCommand.removeSubCommand(CmdTntBank(FactionsX.baseCommand))
         FactionsX.baseCommand.removeSubCommand(CmdTntFill(FactionsX.baseCommand))
         logColored("Unregistered Commands.")
+
         UpgradeManager.deRegisterUpgrade(FactionsX.instance, tntBankUpgrade);
         logColored("Unregistered tnt bank upgrade.")
+
+        getServicesManager().unregisterAll(this)
+        logColored("Unregistered services.")
+
         saveFiles()
         logColored("Saved Configuration & Data Files.")
     }
@@ -91,5 +104,5 @@ class FTNTAddon : AddonPlugin(true) {
 }
 
 fun Faction.getTNTBank(): FactionTNTData.TNTBank {
-    return TNTAddonData.tntData.getTNTData(this)
+    return SimpleAPIService.of(this)
 }

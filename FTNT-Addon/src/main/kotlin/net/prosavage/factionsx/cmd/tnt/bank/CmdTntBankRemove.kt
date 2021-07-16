@@ -1,5 +1,6 @@
 package net.prosavage.factionsx.cmd.tnt.bank
 
+import net.prosavage.factionsx.api.SimpleAPIService
 import net.prosavage.factionsx.cmd.argument.TNTInBankArgument
 import net.prosavage.factionsx.command.engine.CommandInfo
 import net.prosavage.factionsx.command.engine.CommandRequirementsBuilder
@@ -9,7 +10,6 @@ import net.prosavage.factionsx.persist.TNTConfig
 import org.bukkit.Material
 
 class CmdTntBankRemove : FCommand() {
-
     init {
         aliases.add("remove")
         aliases.add("take")
@@ -21,14 +21,14 @@ class CmdTntBankRemove : FCommand() {
                 .build()
     }
 
-
     override fun execute(info: CommandInfo): Boolean {
         val amt = info.getArgAsInt(0) ?: return false
         if (amt <= 0) {
             info.message(TNTConfig.commandTntCannotBeNegaitve)
             return true
         }
-        val tntData = TNTAddonData.tntData.getTNTData(info.faction!!)
+
+        val tntData = SimpleAPIService.of(info.faction!!)
         if (amt > tntData.tntAmt) {
             info.message(TNTConfig.commandTntBankRemoveNotEnough, tntData.tntAmt.toString())
             return false

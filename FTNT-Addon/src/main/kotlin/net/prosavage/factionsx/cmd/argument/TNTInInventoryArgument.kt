@@ -6,7 +6,6 @@ import net.prosavage.factionsx.core.FPlayer
 import org.bukkit.Material
 
 class TNTInInventoryArgument : FCommand.ArgumentType() {
-    override fun getPossibleValues(fPlayer: FPlayer?): List<String> {
-        return listOf("1", fPlayer?.getAmountOfMaterialInPlayerInv(XMaterial.TNT).toString())
-    }
+    override fun getPossibleValues(fPlayer: FPlayer?): List<String> =
+        listOf("1", fPlayer?.getAmountOfMaterialInPlayerInv(XMaterial.TNT).toString())
 }

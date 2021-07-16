@@ -1,6 +1,7 @@
 package net.prosavage.factionsx.cmd.tnt.tntfill
 
 import com.cryptomorin.xseries.XMaterial
+import net.prosavage.factionsx.api.SimpleAPIService
 import net.prosavage.factionsx.cmd.argument.TNTInInventoryArgument
 import net.prosavage.factionsx.cmd.argument.TNTRadiusArgument
 import net.prosavage.factionsx.command.engine.CommandInfo
@@ -50,7 +51,7 @@ class CmdTntFill(parent: FCommand) : FCommand() {
             return false
         }
 
-        val tntData = TNTAddonData.tntData.getTNTData(info.faction!!)
+        val tntData = SimpleAPIService.of(info.faction!!)
         val nearbyResult = getNearbyDispensers(info.faction!!, info.player!!.location, radius)
 
         val nearbyDispensers = nearbyResult.first.ifEmpty {
