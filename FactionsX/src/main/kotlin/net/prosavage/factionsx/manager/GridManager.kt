@@ -138,10 +138,11 @@ object GridManager {
     }
 
     private fun checkBlockFromSnapshot(x: Int, y: Int, z: Int, snapshot: ChunkSnapshot): Pair<Boolean, Double> {
-        val above = snapshot.getBlockType(x, y + 1, z)
-        val below = snapshot.getBlockType(x, y, z)
-        val condition = XMaterial.matchXMaterial(above) in factionCreationFillChunkBorderOnFirstClaimPassableType && below != Material.AIR
-        return condition to if (XMaterial.matchXMaterial(below) in factionCreationFillChunkBorderOnFirstClaimPassableType) 0.0 else 1.0
+        val above = XMaterial.matchXMaterial(snapshot.getBlockType(x, y + 1, z))
+        val below = XMaterial.matchXMaterial(snapshot.getBlockType(x, y, z))
+
+        val condition = above in factionCreationFillChunkBorderOnFirstClaimPassableType && below != XMaterial.AIR
+        return condition to if (below in factionCreationFillChunkBorderOnFirstClaimPassableType) 0.0 else 1.0
     }
 
     fun getAllFactionClaimsSorted(): ListMultimap<Long, FLocation> {
