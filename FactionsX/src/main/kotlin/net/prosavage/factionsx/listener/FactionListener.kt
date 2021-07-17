@@ -3,6 +3,7 @@ package net.prosavage.factionsx.listener
 import net.prosavage.factionsx.event.FactionCreateEvent
 import net.prosavage.factionsx.manager.GridManager
 import net.prosavage.factionsx.persist.config.Config.factionCreationAutoClaimChunkWhereStanding
+import net.prosavage.factionsx.persist.config.Config.worldsNoClaiming
 import net.prosavage.factionsx.persist.data.getFLocation
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -17,9 +18,12 @@ object FactionListener : Listener {
         val factionAt = fLocation.getFaction()
 
         // make sure conditions are met
-        if (!factionCreationAutoClaimChunkWhereStanding || fPlayer.power() < 1 || !factionAt.isWilderness()) {
-            return
-        }
+        if (
+            !factionCreationAutoClaimChunkWhereStanding
+            || fPlayer.power() < 1
+            || !factionAt.isWilderness()
+            || fLocation.world in worldsNoClaiming
+        ) return
 
         // claim chunk
         GridManager.claim(this.faction, fLocation, fPlayer)
