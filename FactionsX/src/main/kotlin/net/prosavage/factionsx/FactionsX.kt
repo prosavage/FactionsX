@@ -1,5 +1,6 @@
 package net.prosavage.factionsx
 
+import com.google.common.io.Files
 import fr.minuskube.inv.InventoryManager
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -39,6 +40,7 @@ import org.bukkit.Bukkit.getPluginManager
 import org.bukkit.Chunk
 import org.bukkit.scheduler.BukkitTask
 import java.io.File
+import java.nio.file.Paths
 import java.util.*
 import java.util.concurrent.Callable
 import java.util.concurrent.Executors
@@ -111,7 +113,6 @@ class FactionsX : SavagePlugin() {
             logColored("Enabled Metrics.")
             loadHooks()
             logColored("Loaded all plugin hooks.")
-            logColored("Attempting to load addons.")
             baseCommand.initializeSubCommandData()
             baseAdminCommand.initializeSubCommandData()
             logColored("Initialized Command Data")
@@ -123,6 +124,8 @@ class FactionsX : SavagePlugin() {
             startSaveTask()
             logColored("Started autosave task.")
             TimerManager.startMonitoring()
+            logColored("Attempting to migrate addon paths.")
+            migrateAddons()
             // run the boss bar ticking task
             Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate({
                 bossBarController.cache.forEach { (_, bar) -> bar.tick() }
@@ -260,5 +263,24 @@ class FactionsX : SavagePlugin() {
         logColored("&l&6FactionsX")
         logColored("By: ProSavage and SavageLabs Team.")
         logColored("&9https://savagelabs.net")
+    }
+
+    private fun migrateAddons() = File(this.dataFolder, "addons").listFiles()?.forEach { jar ->
+        // make sure it's a jar
+        if (jar.extension != "jar") {
+            return@forEach
+        }
+
+        // make sure the new path does not already exist
+        val newPath = File(dataFolder.absolutePath.substringBeforeLast("\\"), jar.name)
+        if (newPath.exists()) return@forEach
+
+        // copy over to new path and remove from old
+        Files.copy(jar, newPath)
+        jar.delete()
+
+        // log outcome and load addon plugin from new path
+        logColored("Addon ${jar.nameWithoutExtension} was migrated from '/addons' to '/plugins'. Now attempting to load...")
+        with (getPluginManager()) { loadPlugin(newPath)?.also { enablePlugin(it) } }
     }
 }
