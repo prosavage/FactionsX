@@ -17,6 +17,7 @@ import net.prosavage.factionsx.persist.config.ProtectionConfig.allowMaterialInte
 import net.prosavage.factionsx.persist.config.ProtectionConfig.allowedInteractableEntitiesInOtherFactionLand
 import net.prosavage.factionsx.persist.config.ProtectionConfig.blackListedInteractionBlocksInOtherFactionLand
 import net.prosavage.factionsx.persist.config.ProtectionConfig.disablePvpBetweenNeutralInWilderness
+import net.prosavage.factionsx.persist.config.ProtectionConfig.disallowMobsFromDamageGadgetsInOtherFactionLands
 import net.prosavage.factionsx.persist.config.ProtectionConfig.materialWhitelist
 import net.prosavage.factionsx.persist.config.ProtectionConfig.overrideActionsForRelation
 import net.prosavage.factionsx.persist.config.ProtectionConfig.overrideActionsWhenFactionOffline
@@ -329,26 +330,44 @@ class PlayerListener : Listener {
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     fun EntityDamageByEntityEvent.onGadgets() {
-        if (damager.type != EntityType.PLAYER || entityType != EntityType.ARMOR_STAND && entityType != EntityType.ITEM_FRAME) {
+        if (entityType != EntityType.ARMOR_STAND && entityType != EntityType.ITEM_FRAME) {
             return
         }
 
         val fLocation = getFLocation(entity.location)
         val factionAt = fLocation.getFaction()
+        val isDamagerNotPlayer = damager.type !== EntityType.PLAYER
+
+        if (disallowMobsFromDamageGadgetsInOtherFactionLands && isDamagerNotPlayer && !factionAt.isSystemFaction()) {
+            this.isCancelled = true
+        }
+
+        if (isDamagerNotPlayer) {
+            return
+        }
 
         this.isCancelled = !processDamageAtGadget(factionAt, damager as Player, entity, true)
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     fun HangingBreakByEntityEvent.onGadgets() {
-        val player = remover as? Player
-        if (player == null || entity.type != EntityType.ITEM_FRAME) {
+        if (remover == null || entity.type != EntityType.ITEM_FRAME) {
             return
         }
 
         val fLocation = getFLocation(entity.location)
         val factionAt = fLocation.getFaction()
+        val isDamagerNotPlayer = remover?.type !== EntityType.PLAYER
 
+        if (disallowMobsFromDamageGadgetsInOtherFactionLands && isDamagerNotPlayer && !factionAt.isSystemFaction()) {
+            this.isCancelled = true
+        }
+
+        if (isDamagerNotPlayer) {
+            return
+        }
+
+        val player = remover as Player
         this.isCancelled = !processDamageAtGadget(factionAt, player, entity, true)
     }
 

@@ -54,6 +54,7 @@ object ProtectionConfig : IConfigFile {
     var allowMobsToDamagePlayersInWarzone = true
     var allowMobsToDamagePlayersInSafezone = false
     var allowMobsToDamagePlayersInWilderness = true
+    var disallowMobsFromDamageGadgetsInOtherFactionLands = false
 
     var allowExplosionsInWarZone = false
     var allowExplosionsInSafeZone = false
