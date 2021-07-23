@@ -60,6 +60,7 @@ object ProtectionConfig : IConfigFile {
     var allowExplosionsInSafeZone = false
     var allowExplosionsInWilderness = true
 
+    var disableTntExplosionsInOtherTerritories = false
     var disableCreeperExplosionsGlobally = false
 
     var denyPvPBetweenAllies = true
