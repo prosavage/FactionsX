@@ -104,7 +104,7 @@ object Config : IConfigFile {
             "&7Power &l&7» &6{faction-power}&7/&6{faction-max-power}",
             "&7Allies &l&7» &6{allies}",
             "&7Enemies &l&7» &6{enemies}",
-            "&7truce &l&7» &6{truces}",
+            "&7Truce &l&7» &6{truces}",
             "&7Shield Duration &l&7» &6{shield-duration}"
     )
 
