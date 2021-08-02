@@ -21,7 +21,6 @@ import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
-import java.util.*
 
 class FactionsAdminBaseCommand : FCommand(), CommandExecutor, TabCompleter {
     init {
@@ -49,6 +48,7 @@ class FactionsAdminBaseCommand : FCommand(), CommandExecutor, TabCompleter {
         addSubCommand(CmdAdminRelation())
         addSubCommand(CmdAdminChatSpy())
         addSubCommand(CmdAdminInvite())
+        addSubCommand(CmdAdminDescription())
 
         prefix = "fx"
     }

@@ -65,6 +65,7 @@ enum class Permission(val node: String, val description: String, val permissionD
     ADMIN_HELP("admin.help", "view admin commands", PermissionDefault.OP),
     ADMIN_AUTOCLAIM("admin.autoclaim", "toggle autoclaim mode for a specfic faction", PermissionDefault.OP),
     ADMIN_CHATSPY("admin.chatspy", "toggle chatspy mode", PermissionDefault.OP),
+    ADMIN_DESCRIPTION("admin.description", "modify a faction's description", PermissionDefault.OP),
     GIVE("player.give", "give tokens to a player", PermissionDefault.OP),
     REMOVE("player.remove", "removes tokens from a player", PermissionDefault.OP),
     PAY("player.pay", "pay tokens to any player", PermissionDefault.TRUE),

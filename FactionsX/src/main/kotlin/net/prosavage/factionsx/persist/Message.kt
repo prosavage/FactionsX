@@ -618,6 +618,10 @@ object Message : IConfigFile {
     var commandAccessYourFaction = "&cYou cannot open up the access menu for your own faction!"
     var commandAccessYourPlayerFaction = "&cYour cannot open up the access menu for a player in your own faction!"
 
+    var commandAdminDescriptionHelp = "modify a faction's description"
+    var commandAdminDescriptionEmpty = "&7Description can not be empty!"
+    var commandAdminDescriptionSuccess = "&7You have set the description of &6%1\$s &7to '&6%2\$s&7'."
+
     //var listenerOwnFaction = "&7You cannot hurt %1\$s&7 as they're a member of your &a&lown&7 faction."
     var listenerTriedToHurtYou = "&6%1\$s &7tried to hurt you."
     var listenerPlayerCannotDoThisHere = "&7You aren't allowed to &6%1\$s &7in &6%2\$s."
