@@ -3,6 +3,7 @@ package net.prosavage.factionsx.core
 import com.cryptomorin.xseries.XMaterial
 import net.prosavage.factionsx.event.FPlayerFactionLeaveEvent
 import net.prosavage.factionsx.event.FPlayerFactionPreLeaveEvent
+import net.prosavage.factionsx.event.FactionRelationChangeEvent
 import net.prosavage.factionsx.manager.*
 import net.prosavage.factionsx.manager.FactionManager.forceRelation
 import net.prosavage.factionsx.persist.Message
@@ -531,6 +532,8 @@ data class Faction(val id: Long, var tag: String, val factionRoles: FactionRoles
 
         this.message(Message.relationNotifOrigin, toFactionTag, relationPrefix, tagReplacement)
         faction.message(Message.relationNotif, this.tag, relationPrefix, tagReplacement)
+
+        Bukkit.getPluginManager().callEvent(FactionRelationChangeEvent(this, faction, currentRelation, relation))
     }
 
     internal fun sendRelationRequest(faction: Faction, relation: Relation): Relation? {
