@@ -157,7 +157,7 @@ subprojects {
         maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
 
         maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
-        maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+
         maven("https://papermc.io/repo/repository/maven-releases/")
         maven("https://ci.ender.zone/plugin/repository/everything/")
         maven("https://minevolt.net/repo/")
